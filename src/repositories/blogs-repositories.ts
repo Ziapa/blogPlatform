@@ -1,5 +1,24 @@
+export const blogs = [
+    {
+        id: 1,
+        name: "name1",
+        description: "description1",
+        websiteUrl: "websiteUrl"
+    },
+    {
+        id: 2,
+        name: "name2",
+        description: "description2",
+        websiteUrl: "websiteUrl2"
+    },
+]
 
-//
-// export const videoRepositories = {
-//
-// }
+export const blogsRepositories = {
+    findBlog(id?: string | null) {
+        if (id) {
+            return blogs.find(b => b.id === +id)
+        } else {
+            return blogs
+        }
+    }
+}

@@ -1,17 +1,16 @@
 import express, {Request, Response} from 'express'
 import {blogsRouter} from "./router/video-router";
-import bodyParser from "body-parser";
 
-const app = express()
+export const app = express()
 const PORT = 3003
 
-app.use(bodyParser({}))
+app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!!!!')
 })
 
-app.use('/videos', blogsRouter)
+app.use('/blogs', blogsRouter)
 
 
 app.listen(PORT, () => {
