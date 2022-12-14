@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import {blogsRouter} from "./router/video-router";
+import {testingRouter} from "./router/testing-router";
 
 export const app = express()
 const PORT = 3003
@@ -11,7 +12,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use('/blogs', blogsRouter)
-app.use('/testing', blogsRouter)
+app.use('/testing', testingRouter)
 
 
 app.listen(PORT, () => {
