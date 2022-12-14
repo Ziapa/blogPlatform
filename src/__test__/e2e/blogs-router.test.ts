@@ -22,7 +22,7 @@ describe('/blogs', () => {
             ])
     })
     it('should return new blog and status 200', async () => {
-
+//TODO
     const payload = {
         name: "Ziapa",
         description: "Smit",

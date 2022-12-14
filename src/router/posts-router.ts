@@ -20,3 +20,12 @@ postsRouter.post('/', (req: Request, res: Response) => {
     }
 })
 
+postsRouter.put('/:id', (req: Request, res: Response) => {
+    const updatePost = postsRepositories.updatePost(req.params.id, req.body)
+    if (updatePost) {
+        res.status(204)
+    } else {
+        res.status(404)
+    }
+})
+

@@ -16,7 +16,7 @@ export const posts = [
         blogName: "blogName2"
     },
 ]
-
+//TODO
 export const postsRepositories = {
     findPosts(id?: string | null) {
         if (id) {
@@ -38,6 +38,18 @@ export const postsRepositories = {
         if (newPost) {
             posts.push(newPost)
             return newPost
+        }
+    },
+    updatePost(id: string, body: {
+        title: string, shortDescription: string, content: string, blogId: string
+    }) {
+        let post = posts.find(p => p.id === id)
+        if (post) {
+            post.title = body.title
+            post.shortDescription = body.shortDescription
+            post.content = body.content
+            post.blogId = body.blogId
+            return true
         }
     }
 }
