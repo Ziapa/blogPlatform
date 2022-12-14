@@ -1,6 +1,6 @@
 export const posts = [
     {
-        id: 1,
+        id: "1",
         title: "name1",
         shortDescription: "description1",
         content: "websiteUrl1",
@@ -8,7 +8,7 @@ export const posts = [
         blogName: "blogName1"
     },
     {
-        id: 2,
+        id: "2",
         title: "name2",
         shortDescription: "description2",
         content: "websiteUrl2",
@@ -20,14 +20,14 @@ export const posts = [
 export const postsRepositories = {
     findPosts(id?: string | null) {
         if (id) {
-            return posts.find(p => p.id === +id)
+            return posts.find(p => p.id === id)
         } else {
             return posts
         }
     },
     createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
         const newPost = {
-            id: +(new Date()),
+            id: new Date().toString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

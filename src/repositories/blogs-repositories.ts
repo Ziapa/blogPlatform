@@ -1,12 +1,12 @@
 export const blogs = [
     {
-        id: 1,
+        id: "1",
         name: "name1",
         description: "description1",
         websiteUrl: "websiteUrl"
     },
     {
-        id: 2,
+        id: "2",
         name: "name2",
         description: "description2",
         websiteUrl: "websiteUrl2"
@@ -16,7 +16,7 @@ export const blogs = [
 export const blogsRepositories = {
     findBlog(id?: string | null) {
         if (id) {
-            return blogs.find(b => b.id === +id)
+            return blogs.find(b => b.id === id)
         } else {
             return blogs
         }
@@ -24,7 +24,7 @@ export const blogsRepositories = {
     crateBlog(body: { name: string, description: string, websiteUrl: string }) {
 
         const newBlog = {
-            id: +(new Date()),
+            id: new Date().toString(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl
