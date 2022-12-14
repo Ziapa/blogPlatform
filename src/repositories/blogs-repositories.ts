@@ -13,6 +13,16 @@ export const blogs = [
     },
 ]
 
+function pass_gen(len: number) {
+    let chrs = 'abdehkmnpswxzABDEFGHKMNPQRSTWXZ123456789';
+    let str = '';
+    for (let i = 0; i < len; i++) {
+        let pos = Math.floor(Math.random() * chrs.length);
+        str += chrs.substring(pos,pos+1);
+    }
+    return str;
+}
+
 export const blogsRepositories = {
     findBlog(id?: string | null) {
         if (id) {
@@ -24,7 +34,7 @@ export const blogsRepositories = {
     crateBlog(body: { name: string, description: string, websiteUrl: string }) {
 
         const newBlog = {
-            id: new Date().toISOString(),
+            id: pass_gen(16),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl
