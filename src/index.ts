@@ -11,6 +11,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use('/blogs', blogsRouter)
+app.use('/testing', blogsRouter)
 
 
 app.listen(PORT, () => {
