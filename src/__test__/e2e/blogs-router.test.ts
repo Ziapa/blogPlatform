@@ -21,5 +21,17 @@ describe('/blogs', () => {
                 },
             ])
     })
+    it('should return new blog and status 200', async () => {
+
+    const payload = {
+        name: "Ziapa",
+        description: "Smit",
+        websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"    }
+
+        await request(app)
+            .post('blogs')
+            .send(payload)
+            .expect(200)
+    });
 })
 

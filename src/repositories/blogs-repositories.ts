@@ -20,5 +20,19 @@ export const blogsRepositories = {
         } else {
             return blogs
         }
+    },
+    crateBlog(body: { name: string, description: string, websiteUrl: string }) {
+
+        const newBlog = {
+            id: +(new Date()),
+            name: body.name,
+            description: body.description,
+            websiteUrl: body.websiteUrl
+        }
+
+        if (newBlog) {
+            blogs.push(newBlog)
+            return newBlog
+        }
     }
 }
