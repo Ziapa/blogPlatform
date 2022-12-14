@@ -27,7 +27,7 @@ export const postsRepositories = {
     },
     createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
         const newPost = {
-            id: new Date().toString(),
+            id: new Date().toISOString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

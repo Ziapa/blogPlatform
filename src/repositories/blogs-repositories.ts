@@ -24,7 +24,7 @@ export const blogsRepositories = {
     crateBlog(body: { name: string, description: string, websiteUrl: string }) {
 
         const newBlog = {
-            id: new Date().toString(),
+            id: new Date().toISOString(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl
