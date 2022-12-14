@@ -16,7 +16,6 @@ export const posts = [
         blogName: "blogName2"
     },
 ]
-//TODO
 export const postsRepositories = {
     findPosts(id?: string | null) {
         if (id) {
