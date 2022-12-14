@@ -1,8 +1,11 @@
 import {blogs} from "./blogs-repositories";
+import { posts } from "./posts-repositories";
 
 
 export const testingRepositories = {
     deleteAll() {
-      return  blogs.splice(0)
+        blogs.splice(0)
+        posts.splice(0)
+        return true
     }
 }
