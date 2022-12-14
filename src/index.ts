@@ -16,5 +16,5 @@ app.use('/testing', testingRouter)
 
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on PORT ${PORT}`)
+
 })

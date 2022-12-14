@@ -5,7 +5,7 @@ import {blogs} from "../repositories/blogs-repositories";
 
 export const testingRouter = Router()
 
-testingRouter.get('/all-data', (req: Request, res: Response) => {
+testingRouter.delete('/all-data', (req: Request, res: Response) => {
 if (testingRepositories.deleteAll()) {
     res.status(204).send(blogs)
 } else {
