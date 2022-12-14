@@ -17,16 +17,6 @@ export const posts = [
     },
 ]
 
-function pass_gen(len: number) {
-    let chrs = 'abdehkmnpswxzABDEFGHKMNPQRSTWXZ123456789';
-    let str = '';
-    for (let i = 0; i < len; i++) {
-        let pos = Math.floor(Math.random() * chrs.length);
-        str += chrs.substring(pos,pos+1);
-    }
-    return str;
-}
-
 export const postsRepositories = {
     findPosts(id?: string | null) {
         if (id) {
@@ -37,7 +27,7 @@ export const postsRepositories = {
     },
     createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
         const newPost = {
-            id: pass_gen(16),
+            id: new Date().toISOString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

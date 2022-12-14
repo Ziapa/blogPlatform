@@ -7,6 +7,9 @@ export const blogsRouter = Router()
 blogsRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(blogsRepositories.findBlog())
 })
+blogsRouter.get('/:id', (req: Request, res: Response) => {
+    res.status(200).send(blogsRepositories.findBlog(req.params.id))
+})
 blogsRouter.post('/', (req: Request, res: Response) => {
     const newBlog = blogsRepositories.crateBlog(req.body)
     if (newBlog) {

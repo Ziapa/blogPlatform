@@ -18,5 +18,5 @@ app.use('/testing', testingRouter)
 
 
 app.listen(PORT, () => {
-    console.log(new Date().toISOString())
+    
 })

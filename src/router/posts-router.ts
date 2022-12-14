@@ -7,6 +7,9 @@ export const postsRouter = Router()
 postsRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(postsRepositories.findPosts())
 })
+postsRouter.get('/:id', (req: Request, res: Response) => {
+    res.status(200).send(postsRepositories.findPosts(req.params.id))
+})
 
 postsRouter.post('/', (req: Request, res: Response) => {
     const newPost = postsRepositories.createPost(req.body)
