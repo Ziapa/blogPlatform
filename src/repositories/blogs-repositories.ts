@@ -1,4 +1,6 @@
-export const blogs = [
+import {blogsType} from "../types/blogsTypes";
+
+export const blogs : Array<blogsType> = [
     {
         id: "1",
         name: "name1",
@@ -33,6 +35,17 @@ export const blogsRepositories = {
         if (newBlog) {
             blogs.push(newBlog)
             return newBlog
+        }
+    },
+    updateBlog(id:string, body: { name: string, description: string, websiteUrl: string }) {
+        const updateBlog = blogs.find(b => b.id === id)
+        if (updateBlog) {
+            updateBlog.name = body.name
+            updateBlog.websiteUrl = body.websiteUrl
+            updateBlog.description = body.description
+            return true
+        } else {
+            return false
         }
     }
 }

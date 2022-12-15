@@ -41,26 +41,6 @@ describe('/posts', () => {
             )
     })
 
-    it('should remove all data, status 204', async () => {
-        await request(app)
-            .delete('/testing/all-data')
-            .expect(204 )
-    })
-
-
-    it('status 201', async () => {
-
-        const payload = {
-            name: "body.name",
-            description: "body.description",
-            websiteUrl: "body.websiteUrl"
-        }
-
-        await request(app)
-            .post('/testing/all-data')
-            .send(payload)
-            .expect(201)
-    })
 
 })
 

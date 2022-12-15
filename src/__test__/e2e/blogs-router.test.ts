@@ -3,8 +3,15 @@ import {app} from '../../index'
 
 describe('/blogs', () => {
 
+    it('should remove all data, status 204', async () => {
+        await request(app)
+            .delete('/testing/all-data')
+            .expect(204 )
+    })
 
+    describe('create blog test', () => {
 
+    })
     it('should return 200', async () => {
         await request(app)
             .get('/blogs')
@@ -22,13 +29,6 @@ describe('/blogs', () => {
                     websiteUrl: 'websiteUrl2'
                 }
             ])
-    })
-
-
-    it('should remove all data, status 204', async () => {
-        await request(app)
-            .delete('/testing/all-data')
-            .expect(204 )
     })
 
     it('should return new blog and status 200', async () => {
@@ -50,6 +50,19 @@ describe('/blogs', () => {
                     websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
                 }
     )
+    });
+    it('should return new blog and status 200', async () => {
+
+        const payload = {
+            name: "Ziapa",
+            description: "Smit",
+            websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
+        }
+
+         await request(app)
+            .put('/blogs/1')
+            .send(payload)
+            .expect(204)
     });
 })
 

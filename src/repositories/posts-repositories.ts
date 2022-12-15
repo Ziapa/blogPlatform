@@ -1,4 +1,6 @@
-export const posts = [
+import { postsType } from "../types/postsTypes"
+
+export const posts: Array<postsType> = [
     {
         id: "1",
         title: "name1",
@@ -49,6 +51,8 @@ export const postsRepositories = {
             post.content = body.content
             post.blogId = body.blogId
             return true
+        } else {
+            return false
         }
     }
 }
