@@ -1,4 +1,4 @@
-import { postsType } from "../types/postsTypes"
+import {postsType} from "../types/postsTypes"
 
 export const posts: Array<postsType> = [
     {
@@ -54,5 +54,14 @@ export const postsRepositories = {
         } else {
             return false
         }
+    },
+    deletePost(id: string) {
+        for (let i = 0; i < posts.length; i++) {
+            if (posts[i].id === id) {
+                posts.splice(i, 1)
+                return true
+            }
+        }
     }
+
 }

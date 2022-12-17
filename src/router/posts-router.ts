@@ -27,5 +27,12 @@ postsRouter.put('/:id', (req: Request, res: Response) => {
     } else {
         res.status(404)
     }
-})
 
+})
+postsRouter.delete('/', (req: Request, res: Response) => {
+    if (req.body) {
+        res.sendStatus(204)
+    } else {
+        res.sendStatus(404)
+    }
+})
