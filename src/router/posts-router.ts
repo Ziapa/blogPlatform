@@ -30,7 +30,7 @@ postsRouter.put('/:id', (req: Request, res: Response) => {
 
 })
 postsRouter.delete('/', (req: Request, res: Response) => {
-    if (req.body) {
+    if (postsRepositories.deletePost(req.params.id)) {
         res.sendStatus(204)
     } else {
         res.sendStatus(404)
