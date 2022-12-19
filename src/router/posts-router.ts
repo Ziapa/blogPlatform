@@ -13,9 +13,6 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 
 postsRouter.post('/',
 
-    // body("name").isString(),
-    // body("description").isString(),
-    // body("websiteUrl").isString(),
 
     (req: Request, res: Response) => {
 

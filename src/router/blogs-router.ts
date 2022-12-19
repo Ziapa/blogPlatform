@@ -4,8 +4,6 @@ import {blogsType} from "../types/blogsTypes";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
-import {body, validationResult} from "express-validator";
-import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 
 export const blogsRouter = Router()
@@ -24,17 +22,7 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 })
 blogsRouter.post('/',
 
-    body("name").isString().isEmpty(),
-    body("description").isString().isEmpty(),
-    body("websiteUrl").isString().isEmpty(),
-    inputValidationMiddleware,
-
     (req: RequestWithBody<CreateBlogsModel>, res: Response) => {
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
 
     const newBlog = blogsRepositories.crateBlog(req.body)
     if (newBlog) {
