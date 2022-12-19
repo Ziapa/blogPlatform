@@ -1,5 +1,6 @@
 import {Request, Response, Router} from "express";
 import {postsRepositories} from "../repositories/posts-repositories";
+import {authorization} from "../middlewares/authorization-middleware";
 
 
 export const postsRouter = Router()
@@ -13,20 +14,22 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 
 postsRouter.post('/',
 
+    authorization,
 
     (req: Request, res: Response) => {
-
-
-
     const newPost = postsRepositories.createPost(req.body)
     if (newPost) {
-        res.status(201).send(newPost)
+        res.sendStatus(201).send(newPost)
     } else {
-        res.status(404)
+        res.sendStatus(404)
     }
 })
 
-postsRouter.put('/:id', (req: Request, res: Response) => {
+postsRouter.put('/:id',
+
+    authorization,
+
+    (req: Request, res: Response) => {
     const updatePost = postsRepositories.updatePost(req.params.id, req.body)
     if (updatePost) {
         res.status(204)
@@ -35,7 +38,11 @@ postsRouter.put('/:id', (req: Request, res: Response) => {
     }
 
 })
-postsRouter.delete('/', (req: Request, res: Response) => {
+postsRouter.delete('/',
+
+    authorization,
+
+    (req: Request, res: Response) => {
     if (postsRepositories.deletePost(req.params.id)) {
         res.sendStatus(204)
     } else {
