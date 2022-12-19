@@ -4,6 +4,7 @@ import {blogsType} from "../types/blogsTypes";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
+import {authorization} from "../middlewares/authorization-middleware";
 
 
 export const blogsRouter = Router()
@@ -22,7 +23,9 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 })
 blogsRouter.post('/',
 
-    (req: RequestWithBody<CreateBlogsModel>, res: Response) => {
+    authorization,
+
+    (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {
 
     const newBlog = blogsRepositories.crateBlog(req.body)
     if (newBlog) {
@@ -31,7 +34,11 @@ blogsRouter.post('/',
         res.sendStatus(404)
     }
 })
-blogsRouter.put('/:id', (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
+blogsRouter.put('/:id',
+
+    authorization,
+
+    (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
     const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
     if (updateBlog) {
         res.sendStatus(204)
@@ -39,7 +46,11 @@ blogsRouter.put('/:id', (req: RequestWithParamsAndBody<QueryBlogsModelType, Crea
         res.sendStatus(400)
     }
 })
-blogsRouter.delete('/', (req: Request, res: Response) => {
+blogsRouter.delete('/',
+
+    authorization,
+
+    (req: Request, res: Response) => {
     if (blogsRepositories.deletedBlog(req.params.id)) {
         res.sendStatus(204)
     } else  {

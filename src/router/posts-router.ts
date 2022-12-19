@@ -16,6 +16,8 @@ postsRouter.post('/',
 
     (req: Request, res: Response) => {
 
+
+
     const newPost = postsRepositories.createPost(req.body)
     if (newPost) {
         res.status(201).send(newPost)
