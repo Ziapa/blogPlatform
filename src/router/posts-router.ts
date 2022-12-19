@@ -1,6 +1,5 @@
 import {Request, Response, Router} from "express";
 import {postsRepositories} from "../repositories/posts-repositories";
-import {body} from "express-validator";
 
 
 export const postsRouter = Router()
@@ -14,9 +13,9 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 
 postsRouter.post('/',
 
-    body("name").isString(),
-    body("description").trim().isString(),
-    body("websiteUrl").trim().isString(),
+    // body("name").isString(),
+    // body("description").isString(),
+    // body("websiteUrl").isString(),
 
     (req: Request, res: Response) => {
 
