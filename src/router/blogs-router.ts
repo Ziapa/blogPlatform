@@ -34,55 +34,59 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 })
 blogsRouter.post('/',
 
-    check('name', 'hello world')
-        .trim()
-        .exists()
-        .isString()
-        .isLength({min: 1,max: 15}),
-    body('description')
-        .trim()
-        .exists()
-        .isString()
-        .isLength({max: 500}),
-    body('websiteUrl')
-        .trim()
-        .exists()
-        .isString()
-        .isLength({max: 100}),
+    authorization,
+
+    [
+        check('name', 'hello world')
+            .trim()
+            .exists()
+            .isString()
+            .isLength({max: 15}),
+        check('description')
+            .trim()
+            .exists()
+            .isString()
+            .isLength({max: 500}),
+        check('websiteUrl')
+            .trim()
+            .exists()
+            .isString()
+            .isLength({max: 100}),
+    ],
 
     inputValidationMiddleware,
-    authorization,
+
 
     (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {
 
-    const newBlog = blogsRepositories.crateBlog(req.body)
-    if (newBlog) {
-        res.status(201).send(newBlog)
-    } else {
-        res.sendStatus(401)
-    }
-})
+        const newBlog = blogsRepositories.crateBlog(req.body)
+        if (newBlog) {
+            res.status(201).send(newBlog)
+        } else {
+            res.sendStatus(401)
+        }
+    })
 blogsRouter.put('/:id',
 
     authorization,
 
     (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
-    const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
-    if (updateBlog) {
-        res.sendStatus(204)
-    } else {
-        res.sendStatus(404)
-    }
-})
+        const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
+        if (updateBlog) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
+    })
 blogsRouter.delete('/:id',
 
     authorization,
 
     (req: Request, res: Response) => {
-    if (blogsRepositories.deletedBlog(req.params.id)) {
-        res.sendStatus(204)
-    } else  {
-        res.sendStatus(404)
-    }
-} )
+        if (blogsRepositories.deletedBlog(req.params.id)) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
+    })
 
