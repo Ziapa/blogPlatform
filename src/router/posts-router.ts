@@ -9,7 +9,14 @@ postsRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(postsRepositories.findPosts())
 })
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    res.status(200).send(postsRepositories.findPosts(req.params.id))
+
+    const findPost = postsRepositories.findPosts(req.params.id)
+
+    if (findPost) {
+        res.status(200).send(findPost)
+    } else {
+        res.sendStatus(404)
+    }
 })
 
 postsRouter.post('/',
