@@ -39,8 +39,16 @@ blogsRouter.post('/',
         .exists()
         .isString()
         .isLength({min: 1,max: 15}),
-    body('description').isLength({max: 500}),
-    body('websiteUrl').isLength({max: 100}),
+    body('description')
+        .trim()
+        .exists()
+        .isString()
+        .isLength({max: 500}),
+    body('websiteUrl')
+        .trim()
+        .exists()
+        .isString()
+        .isLength({max: 100}),
 
     inputValidationMiddleware,
     authorization,
