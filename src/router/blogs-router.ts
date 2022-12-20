@@ -49,9 +49,9 @@ blogsRouter.post('/',
     })
 blogsRouter.put('/:id',
 
-    updateBlogValidation,
-
     basicAuthorization,
+
+    updateBlogValidation,
 
     (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
         const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
