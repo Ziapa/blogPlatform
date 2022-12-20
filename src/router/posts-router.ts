@@ -22,9 +22,9 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 
 postsRouter.post('/',
 
-    createBlogValidation,
-
     basicAuthorization,
+
+    createBlogValidation,
 
     (req: Request, res: Response) => {
     const newPost = postsRepositories.createPost(req.body)
@@ -50,9 +50,9 @@ postsRouter.put('/:id',
 })
 postsRouter.delete('/:id',
 
-    updateBlogValidation,
-
     basicAuthorization,
+
+    updateBlogValidation,
 
     (req: Request, res: Response) => {
     if (postsRepositories.deletePost(req.params.id)) {
