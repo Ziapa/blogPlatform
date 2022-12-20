@@ -38,7 +38,7 @@ postsRouter.put('/:id',
     }
 
 })
-postsRouter.delete('/',
+postsRouter.delete('/:id',
 
     authorization,
 
