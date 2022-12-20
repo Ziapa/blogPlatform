@@ -19,7 +19,16 @@ blogsRouter.get('/', (req: Request, res: Response<blogsType[] | blogsType>) => {
 
 })
 blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Response<blogsType[] | blogsType>) => {
-    res.status(200).send(blogsRepositories.findBlog(req.params.id))
+
+    const findBlog = blogsRepositories.findBlog(req.params.id)
+
+    if (findBlog) {
+        res.status(200).send(findBlog)
+    } else {
+        res.sendStatus(404)
+    }
+
+
 })
 blogsRouter.post('/',
 
@@ -46,7 +55,7 @@ blogsRouter.put('/:id',
         res.sendStatus(404)
     }
 })
-blogsRouter.delete('/',
+blogsRouter.delete('/:id',
 
     authorization,
 
