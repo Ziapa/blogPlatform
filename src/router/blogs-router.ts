@@ -5,6 +5,8 @@ import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../t
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {authorization} from "../middlewares/authorization-middleware";
+import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {body, check} from "express-validator";
 
 
 export const blogsRouter = Router()
@@ -32,6 +34,15 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 })
 blogsRouter.post('/',
 
+    check('name', 'hello world')
+        .trim()
+        .exists()
+        .isString()
+        .isLength({min: 1,max: 15}),
+    body('description').isLength({max: 500}),
+    body('websiteUrl').isLength({max: 100}),
+
+    inputValidationMiddleware,
     authorization,
 
     (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {

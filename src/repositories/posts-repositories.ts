@@ -18,6 +18,9 @@ export const posts: Array<postsType> = [
         blogName: "blogName2"
     },
 ]
+
+const postId = []
+
 export const postsRepositories = {
     findPosts(id?: string | null) {
         if (id) {
@@ -28,7 +31,7 @@ export const postsRepositories = {
     },
     createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
         const newPost = {
-            id: new Date().toISOString(),
+            id: postId.length.toString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,
@@ -37,6 +40,7 @@ export const postsRepositories = {
         }
 
         if (newPost) {
+            postId.push(postId.length + 1)
             posts.push(newPost)
             return newPost
         }

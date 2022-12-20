@@ -15,6 +15,9 @@ export const blogs : Array<blogsType> = [
     },
 ]
 
+let blogId = []
+
+
 export const blogsRepositories = {
     findBlog(id?: string | null) {
         if (id) {
@@ -26,13 +29,14 @@ export const blogsRepositories = {
     crateBlog(body: { name: string, description: string, websiteUrl: string }) {
 
         const newBlog = {
-            id: new Date().toISOString(),
+            id: blogId.length.toString(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl
         }
 
         if (newBlog) {
+            blogId.push(blogId.length + 1)
             blogs.push(newBlog)
             return newBlog
         }
