@@ -6,63 +6,80 @@ describe('/blogs', () => {
     it('should remove all data, status 204', async () => {
         await request(app)
             .delete('/testing/all-data')
-            .expect(204 )
+            .expect(204)
     })
 
-    describe('create blog test', () => {
-
-    })
     it('should return 200', async () => {
         await request(app)
             .get('/blogs')
-            .expect(200, [
-                {
-                    id: '1',
-                    name: 'name1',
-                    description: 'description1',
-                    websiteUrl: 'websiteUrl'
-                },
-                {
-                    id: '2',
-                    name: 'name2',
-                    description: 'description2',
-                    websiteUrl: 'websiteUrl2'
-                }
-            ])
+            .expect(200, [])
     })
 
-    it('should return new blog and status 200', async () => {
-
-    const payload = {
-        name: "Ziapa",
-        description: "Smit",
-        websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"    }
-
-        await request(app)
-            .post('/blogs')
-            .send(payload)
-            .expect(201,
-                {
-                    //TODO
-                    id: expect.any(String),
-                    name: "Ziapa",
-                    description: "Smit",
-                    websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
-                }
-    )
-    });
-    it('should return new blog and status 200', async () => {
-
+    it('should return Unauthorized and status 401', async () => {
         const payload = {
             name: "Ziapa",
             description: "Smit",
             websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
         }
-
-         await request(app)
-            .put('/blogs/1')
+        await request(app)
+            .post('/blogs')
             .send(payload)
+            .expect(401)
+    });
+
+    it('should return Bad Request status 400', async () => {
+        const payload = {
+            ame: "Ziapa",
+            description: "Smit",
+            websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
+        }
+        await request(app)
+            .post('/blogs')
+            .send(payload)
+            .auth('admin', 'qwerty')
+            .expect(400)
+    });
+
+    it('should return new blog and status 201', async () => {
+        const payload = {
+            name: "Ziapa",
+            description: "Smit",
+            websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
+        }
+        await request(app)
+            .post('/blogs')
+            .send(payload)
+            .auth('admin', 'qwerty')
+            .expect(201,{
+                id: '0',
+                name: 'Ziapa',
+                description: 'Smit',
+                websiteUrl: 'https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts'
+            })
+    });
+
+    it('should return status 204', async () => {
+        const payload = {
+            name: "newName",
+            description: "newDescription",
+            websiteUrl: "https://newUrl.ru"
+        }
+        await request(app)
+            .put('/blogs/0')
+            .send(payload)
+            .auth('admin', 'qwerty')
             .expect(204)
     });
+
+    it('should return newBlog and status 200', async () => {
+        await request(app)
+            .get('/blogs/0')
+            .expect(200, {
+                id: '0',
+                name: 'newName',
+                description: 'newDescription',
+                websiteUrl: 'https://newUrl.ru'
+            })
+    })
 })
 

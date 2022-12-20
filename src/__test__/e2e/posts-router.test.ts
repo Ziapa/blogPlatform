@@ -9,7 +9,7 @@ describe('create post', () => {
             .expect(204,{})
     })
 
-    it('should return 200', async () => {
+    it('should return 401 "Unauthorized"', async () => {
 
         const newPost = {
             title: 'title',
@@ -18,51 +18,95 @@ describe('create post', () => {
             blogId: 'blogId',
             blogName: 'title'
         }
-
         await request(app)
             .post('/posts')
             .send(newPost)
-            .expect(201, [
-                {
-                    id: expect.any(String),
-                    title: 'title',
-                    shortDescription: 'shortDescription',
-                    content: 'content',
-                    blogId: 'blogId',
-                    blogName: 'title'
-                }
-            ])
+            .expect(401)
+    })
+    it('should return 400 Bad Request', async () => {
+
+        const newPost = {
+            itle: 'title',
+            shortDescription: 'shortDescription',
+            content: 'content',
+            blogId: 'blogId',
+            blogName: 'title'
+        }
+        await request(app)
+            .post('/posts')
+            .send(newPost)
+            .auth('admin', 'qwerty')
+            .expect(400)
     })
 
-    it('should return 200', async () => {
+    it('should return new blog and status 201', async () => {
+        const payload = {
+            name: "Ziapa",
+            description: "Smit",
+            websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
+        }
         await request(app)
-            .get('/posts')
-            .expect(200, [
-                {
-                    id: '1',
-                    title: 'name1',
-                    shortDescription: 'description1',
-                    content: 'websiteUrl1',
-                    blogId: 'blogId1',
-                    blogName: 'blogName1'
-                }
-            ])
+            .post('/blogs')
+            .send(payload)
+            .auth('admin', 'qwerty')
+            .expect(201,{
+                id: '0',
+                name: 'Ziapa',
+                description: 'Smit',
+                websiteUrl: 'https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts'
+            })
+    });
+
+    it('should return new post and status 201', async () => {
+
+        const newPost = {
+            title: 'title',
+            shortDescription: 'shortDescription',
+            content: 'content',
+            blogId: '0',
+        }
+        await request(app)
+            .post('/posts')
+            .send(newPost)
+            .auth('admin', 'qwerty')
+            .expect(201,{
+                id: '0',
+                title: 'title',
+                shortDescription: 'shortDescription',
+                content: 'content',
+                blogId: '0',
+                blogName: 'Ziapa'
+            })
     })
 
-    it('should return 200', async () => {
+  it('should return status 204', async () => {
+
+        const newPost = {
+            title: 'newTitle',
+            shortDescription: 'newShortDescription',
+            content: 'newContent',
+            blogId: '0',
+        }
         await request(app)
-            .get('/posts/1')
-            .expect(200,
-                {
-                    id: '1',
-                    title: 'name1',
-                    shortDescription: 'description1',
-                    content: 'websiteUrl1',
-                    blogId: 'blogId1',
-                    blogName: 'blogName1'
-                }
-            )
+            .put('/posts/0')
+            .send(newPost)
+            .auth('admin', 'qwerty')
+            .expect(204)
     })
+    it('should return updatePost 0 and status 200', async () => {
+
+        await request(app)
+            .get('/posts/0')
+            .expect(200,{
+                id: '0',
+                title: 'newTitle',
+                shortDescription: 'newShortDescription',
+                content: 'newContent',
+                blogId: '0',
+                blogName: 'Ziapa'
+            })
+    })
+
 
 
 })

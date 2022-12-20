@@ -7,11 +7,11 @@ import {createPostValidation, updatePostValidation} from "../validation/posts-va
 export const postsRouter = Router()
 
 postsRouter.get('/', (req: Request, res: Response) => {
-    res.status(200).send(postsRepositories.findPosts())
+    res.status(200).send(postsRepositories.getPost())
 })
 postsRouter.get('/:id', (req: Request, res: Response) => {
 
-    const findPost = postsRepositories.findPosts(req.params.id)
+    const findPost = postsRepositories.findPost(req.params.id)
 
     if (findPost) {
         res.status(200).send(findPost)
@@ -21,7 +21,9 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postsRouter.post('/',
+
     basicAuthorization,
+
     createPostValidation,
 
     (req: Request, res: Response) => {
@@ -34,9 +36,11 @@ postsRouter.post('/',
     })
 
 postsRouter.put('/:id',
+
     basicAuthorization,
 
     updatePostValidation,
+
     (req: Request, res: Response) => {
         const updatePost = postsRepositories.updatePost(req.params.id, req.body)
         if (updatePost) {

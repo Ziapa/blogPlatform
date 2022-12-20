@@ -23,22 +23,23 @@ export const posts: Array<postsType> = [
 const postId = []
 
 export const postsRepositories = {
-    findPosts(id?: string | null) {
-        if (id) {
-            return posts.find(p => p.id === id)
-        } else {
-            return posts
-        }
+
+    getPost() {
+        return posts
     },
-    createPost(body: { title: string, shortDescription: string, content: string, blogId: string}) {
+    findPost(id?: string | null) {
+        return posts.find(p => p.id === id)
+    },
+    createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
         const blog = blogsRepositories.findBlog(body.blogId)
         if (!blog) return null
+        console.log(blog)
         const newPost = {
             id: postId.length.toString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,
-            blogId: blog.id ,
+            blogId: blog.id,
             blogName: blog.name
         }
 
