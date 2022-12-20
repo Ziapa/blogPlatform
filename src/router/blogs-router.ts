@@ -44,15 +44,17 @@ blogsRouter.post('/',
             .isString()
             .isLength({max: 15}),
         check('description')
-            .not().isEmpty().trim().escape()
+            .not()
             .trim()
             .exists()
             .isString()
             .isLength({max: 500}),
         check('websiteUrl')
+            .not()
             .trim()
             .exists()
             .isString()
+            .blacklist("^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$")
             .isLength({max: 100}),
     ],
 
