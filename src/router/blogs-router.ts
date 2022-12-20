@@ -4,9 +4,9 @@ import {blogsType} from "../types/blogsTypes";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
-import {authorization} from "../middlewares/authorization-middleware";
+import {basicAuthorization} from "../middlewares/authorization-middleware";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {check} from "express-validator";
+import {body} from "express-validator";
 
 
 export const blogsRouter = Router()
@@ -32,35 +32,35 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 
 
 })
+
+const nameValidation = body('name')
+    .isString()
+    .trim().notEmpty()
+    .isLength({max: 15})
+
+const descriptionUrl = body('description')
+    .isString()
+    .trim().notEmpty()
+    .isLength({max: 500})
+
+const webSiteUrlValidation = body('websiteUrl')
+    .isString()
+    .trim().notEmpty()
+    .isURL()
+    .matches("^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$")
+    .isLength({max: 100})
+
+
+const createBlogValidation = [
+    nameValidation,
+    descriptionUrl,
+    webSiteUrlValidation,
+    inputValidationMiddleware
+]
+
 blogsRouter.post('/',
-
-    authorization,
-
-    [
-        check('name', 'hello world')
-            .not()
-            .trim()
-            .exists()
-            .isString()
-            .isLength({max: 15}),
-        check('description')
-            .not()
-            .trim()
-            .exists()
-            .isString()
-            .isLength({max: 500}),
-        check('websiteUrl')
-            .not()
-            .trim()
-            .exists()
-            .isString()
-            .isURL()
-            .isLength({max: 100}),
-    ],
-
-    inputValidationMiddleware,
-
-
+    basicAuthorization,
+    createBlogValidation,
     (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {
 
         const newBlog = blogsRepositories.crateBlog(req.body)
@@ -72,7 +72,7 @@ blogsRouter.post('/',
     })
 blogsRouter.put('/:id',
 
-    authorization,
+    basicAuthorization,
 
     (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
         const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
@@ -84,7 +84,7 @@ blogsRouter.put('/:id',
     })
 blogsRouter.delete('/:id',
 
-    authorization,
+    basicAuthorization,
 
     (req: Request, res: Response) => {
         if (blogsRepositories.deletedBlog(req.params.id)) {
