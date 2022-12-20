@@ -19,12 +19,13 @@ let blogId = []
 
 
 export const blogsRepositories = {
-    findBlog(id?: string | null) {
-        if (id) {
+
+    getBlogs() {
+        return blogs
+    },
+
+    findBlog(id: string) {
             return blogs.find(b => b.id === id)
-        } else {
-            return blogs
-        }
     },
     crateBlog(body: { name: string, description: string, websiteUrl: string }) {
 

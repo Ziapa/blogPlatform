@@ -1,4 +1,5 @@
 import {postsType} from "../types/postsTypes"
+import {blogsRepositories} from "./blogs-repositories";
 
 export const posts: Array<postsType> = [
     {
@@ -29,14 +30,16 @@ export const postsRepositories = {
             return posts
         }
     },
-    createPost(body: { title: string, shortDescription: string, content: string, blogId: string }) {
+    createPost(body: { title: string, shortDescription: string, content: string, blogId: string}) {
+        const blog = blogsRepositories.findBlog(body.blogId)
+        if (!blog) return null
         const newPost = {
             id: postId.length.toString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,
-            blogId: body.blogId,
-            blogName: body.title
+            blogId: blog.id ,
+            blogName: blog.name
         }
 
         if (newPost) {

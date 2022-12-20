@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBlogValidation = exports.createBlogValidation = void 0;
+exports.updatePostValidation = exports.createPostValidation = void 0;
 const express_validator_1 = require("express-validator");
 const input_validation_middleware_1 = require("../middlewares/input-validation-middleware");
+const blogs_repositories_1 = require("../repositories/blogs-repositories");
 const titleValidation = (0, express_validator_1.body)('title')
     .isString()
     .trim().notEmpty()
@@ -17,15 +18,21 @@ const contentValidation = (0, express_validator_1.body)('content')
     .isLength({ max: 1000 });
 const blogIdValidation = (0, express_validator_1.body)('blogId')
     .isString()
-    .trim().notEmpty();
-exports.createBlogValidation = [
+    .trim().notEmpty()
+    .custom(value => {
+    const blog = blogs_repositories_1.blogsRepositories.findBlog(value);
+    if (!blog)
+        throw new Error();
+    return true;
+});
+exports.createPostValidation = [
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
     blogIdValidation,
     input_validation_middleware_1.inputValidationMiddleware
 ];
-exports.updateBlogValidation = [
+exports.updatePostValidation = [
     titleValidation,
     shortDescriptionValidation,
     contentValidation,

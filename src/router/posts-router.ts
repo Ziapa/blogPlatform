@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import {postsRepositories} from "../repositories/posts-repositories";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
-import {createBlogValidation, updateBlogValidation} from "../validation/posts-validation";
+import {createPostValidation, updatePostValidation} from "../validation/posts-validation";
 
 
 export const postsRouter = Router()
@@ -21,41 +21,39 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postsRouter.post('/',
-
     basicAuthorization,
-
-    createBlogValidation,
+    createPostValidation,
 
     (req: Request, res: Response) => {
-    const newPost = postsRepositories.createPost(req.body)
-    if (newPost) {
-        res.status(201).send(newPost)
-    } else {
-        res.sendStatus(404)
-    }
-})
+        const newPost = postsRepositories.createPost(req.body)
+        if (newPost) {
+            res.status(201).send(newPost)
+        } else {
+            res.sendStatus(404)
+        }
+    })
 
 postsRouter.put('/:id',
     basicAuthorization,
 
-    updateBlogValidation,
+    updatePostValidation,
     (req: Request, res: Response) => {
-    const updatePost = postsRepositories.updatePost(req.params.id, req.body)
-    if (updatePost) {
-        res.sendStatus(204)
-    } else {
-        res.sendStatus(404)
-    }
+        const updatePost = postsRepositories.updatePost(req.params.id, req.body)
+        if (updatePost) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
 
-})
+    })
 postsRouter.delete('/:id',
 
     basicAuthorization,
 
     (req: Request, res: Response) => {
-    if (postsRepositories.deletePost(req.params.id)) {
-        res.sendStatus(204)
-    } else {
-        res.sendStatus(404)
-    }
-})
+        if (postsRepositories.deletePost(req.params.id)) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
+    })

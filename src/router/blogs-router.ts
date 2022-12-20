@@ -12,7 +12,7 @@ export const blogsRouter = Router()
 
 blogsRouter.get('/', (req: Request, res: Response<blogsType[] | blogsType>) => {
 
-    const findBlogs = blogsRepositories.findBlog()
+    const findBlogs = blogsRepositories.getBlogs()
 
     if (findBlogs) {
         res.status(200).send(findBlogs)
