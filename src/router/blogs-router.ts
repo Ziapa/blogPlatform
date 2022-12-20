@@ -31,7 +31,7 @@ blogsRouter.post('/',
     if (newBlog) {
         res.status(201).send(newBlog)
     } else {
-        res.sendStatus(404)
+        res.sendStatus(400)
     }
 })
 blogsRouter.put('/:id',
@@ -43,7 +43,7 @@ blogsRouter.put('/:id',
     if (updateBlog) {
         res.sendStatus(204)
     } else {
-        res.sendStatus(400)
+        res.sendStatus(404)
     }
 })
 blogsRouter.delete('/',

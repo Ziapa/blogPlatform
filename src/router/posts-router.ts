@@ -32,9 +32,9 @@ postsRouter.put('/:id',
     (req: Request, res: Response) => {
     const updatePost = postsRepositories.updatePost(req.params.id, req.body)
     if (updatePost) {
-        res.status(204)
+        res.sendStatus(204)
     } else {
-        res.status(404)
+        res.sendStatus(404)
     }
 
 })
