@@ -51,7 +51,7 @@ blogsRouter.post('/',
     if (newBlog) {
         res.status(201).send(newBlog)
     } else {
-        res.sendStatus(400)
+        res.sendStatus(401)
     }
 })
 blogsRouter.put('/:id',
