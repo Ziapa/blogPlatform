@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 import {postsRepositories} from "../repositories/posts-repositories";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
+import {createBlogValidation, updateBlogValidation} from "../validation/posts-validation";
 
 
 export const postsRouter = Router()
@@ -20,6 +21,8 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postsRouter.post('/',
+
+    createBlogValidation,
 
     basicAuthorization,
 
@@ -46,6 +49,8 @@ postsRouter.put('/:id',
 
 })
 postsRouter.delete('/:id',
+
+    updateBlogValidation,
 
     basicAuthorization,
 

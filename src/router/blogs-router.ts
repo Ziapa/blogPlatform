@@ -5,8 +5,7 @@ import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../t
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
-import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {body} from "express-validator";
+import {createBlogValidation, updateBlogValidation} from "../validation/blogs-validation";
 
 
 export const blogsRouter = Router()
@@ -33,34 +32,12 @@ blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Respo
 
 })
 
-const nameValidation = body('name')
-    .isString()
-    .trim().notEmpty()
-    .isLength({max: 15})
-
-const descriptionUrl = body('description')
-    .isString()
-    .trim().notEmpty()
-    .isLength({max: 500})
-
-const webSiteUrlValidation = body('websiteUrl')
-    .isString()
-    .trim().notEmpty()
-    .isURL()
-    .matches("^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$")
-    .isLength({max: 100})
-
-
-const createBlogValidation = [
-    nameValidation,
-    descriptionUrl,
-    webSiteUrlValidation,
-    inputValidationMiddleware
-]
-
 blogsRouter.post('/',
+
     basicAuthorization,
+
     createBlogValidation,
+
     (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {
 
         const newBlog = blogsRepositories.crateBlog(req.body)
@@ -71,6 +48,8 @@ blogsRouter.post('/',
         }
     })
 blogsRouter.put('/:id',
+
+    updateBlogValidation,
 
     basicAuthorization,
 
