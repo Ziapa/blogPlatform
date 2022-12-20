@@ -36,9 +36,9 @@ postsRouter.post('/',
 })
 
 postsRouter.put('/:id',
-
     basicAuthorization,
 
+    updateBlogValidation,
     (req: Request, res: Response) => {
     const updatePost = postsRepositories.updatePost(req.params.id, req.body)
     if (updatePost) {
@@ -51,8 +51,6 @@ postsRouter.put('/:id',
 postsRouter.delete('/:id',
 
     basicAuthorization,
-
-    updateBlogValidation,
 
     (req: Request, res: Response) => {
     if (postsRepositories.deletePost(req.params.id)) {
