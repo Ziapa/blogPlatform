@@ -54,7 +54,7 @@ blogsRouter.post('/',
             .trim()
             .exists()
             .isString()
-            .blacklist("^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$")
+            .isURL()
             .isLength({max: 100}),
     ],
 
