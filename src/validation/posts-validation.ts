@@ -19,7 +19,6 @@ const contentValidation = body('content')
 
 const blogIdValidation = body('blogId')
     .isString()
-    .trim().notEmpty()
 
 export const createBlogValidation = [
     titleValidation,
