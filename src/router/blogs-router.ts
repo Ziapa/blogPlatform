@@ -6,7 +6,7 @@ import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {authorization} from "../middlewares/authorization-middleware";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {body, check} from "express-validator";
+import {check} from "express-validator";
 
 
 export const blogsRouter = Router()
@@ -38,11 +38,13 @@ blogsRouter.post('/',
 
     [
         check('name', 'hello world')
+            .not()
             .trim()
             .exists()
             .isString()
             .isLength({max: 15}),
         check('description')
+            .not().isEmpty().trim().escape()
             .trim()
             .exists()
             .isString()
