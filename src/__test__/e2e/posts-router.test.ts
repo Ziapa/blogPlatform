@@ -9,6 +9,12 @@ describe('create post', () => {
             .expect(204,{})
     })
 
+    it('should return 200', async () => {
+        await request(app)
+            .get('/posts')
+            .expect(200, [])
+    })
+
     it('should return 401 "Unauthorized"', async () => {
 
         const newPost = {
@@ -57,26 +63,28 @@ describe('create post', () => {
             })
     });
 
-    it('should return new post and status 201', async () => {
-
-        const newPost = {
+    it('should return new blog and status 201', async () => {
+        const payload = {
             title: 'title',
             shortDescription: 'shortDescription',
             content: 'content',
-            blogId: '0',
+            blogId: '0'
         }
         await request(app)
-            .post('/posts')
-            .send(newPost)
+            .post('/posts]')
+            .send(payload)
             .auth('admin', 'qwerty')
-            .expect(201,{
-                id: '0',
-                title: 'title',
-                shortDescription: 'shortDescription',
-                content: 'content',
-                blogId: '0',
-                blogName: 'Ziapa'
-            })
+            .expect(201,{})
+    });
+
+    it('should return new post and status 201', async () => {
+
+
+        it('should return 200', async () => {
+            await request(app)
+                .get('/posts')
+                .expect(200, [])
+        })
     })
 
   it('should return status 204', async () => {
