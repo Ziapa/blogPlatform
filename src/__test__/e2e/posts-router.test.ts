@@ -15,36 +15,6 @@ describe('create post', () => {
             .expect(200, [])
     })
 
-    it('should return 401 "Unauthorized"', async () => {
-
-        const newPost = {
-            title: 'title',
-            shortDescription: 'shortDescription',
-            content: 'content',
-            blogId: 'blogId',
-            blogName: 'title'
-        }
-        await request(app)
-            .post('/posts')
-            .send(newPost)
-            .expect(401)
-    })
-    it('should return 400 Bad Request', async () => {
-
-        const newPost = {
-            itle: 'title',
-            shortDescription: 'shortDescription',
-            content: 'content',
-            blogId: 'blogId',
-            blogName: 'title'
-        }
-        await request(app)
-            .post('/posts')
-            .send(newPost)
-            .auth('admin', 'qwerty')
-            .expect(400)
-    })
-
     it('should return new blog and status 201', async () => {
         const payload = {
             name: "Ziapa",
@@ -63,28 +33,54 @@ describe('create post', () => {
             })
     });
 
-    it('should return new blog and status 201', async () => {
-        const payload = {
+    it('should return 401 "Unauthorized"', async () => {
+
+        const newPost = {
             title: 'title',
             shortDescription: 'shortDescription',
             content: 'content',
-            blogId: '0'
+            blogId: '0',
         }
         await request(app)
-            .post('/posts]')
-            .send(payload)
+            .post('/posts')
+            .send(newPost)
+            .expect(401)
+    })
+    it('should return 400 Bad Request', async () => {
+
+        const newPost = {
+            itle: 'title',
+            shortDescription: 'shortDescription',
+            content: 'content',
+            blogId: '0',
+        }
+        await request(app)
+            .post('/posts')
+            .send(newPost)
             .auth('admin', 'qwerty')
-            .expect(201,{})
-    });
+            .expect(400)
+    })
 
     it('should return new post and status 201', async () => {
 
-
-        it('should return 200', async () => {
-            await request(app)
-                .get('/posts')
-                .expect(200, [])
-        })
+        const newPost = {
+            title: 'title',
+            shortDescription: 'shortDescription',
+            content: 'content',
+            blogId: '0',
+        }
+        await request(app)
+            .post('/posts')
+            .send(newPost)
+            .auth('admin', 'qwerty')
+            .expect(201,{
+                id: '0',
+                title: 'title',
+                shortDescription: 'shortDescription',
+                content: 'content',
+                blogId: '0',
+                blogName: 'Ziapa'
+            })
     })
 
   it('should return status 204', async () => {
@@ -114,8 +110,6 @@ describe('create post', () => {
                 blogName: 'Ziapa'
             })
     })
-
-
 
 })
 
