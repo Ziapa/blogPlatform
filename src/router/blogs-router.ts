@@ -10,7 +10,7 @@ import {createBlogValidation, updateBlogValidation} from "../validation/blogs-va
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', (req: Request, res: Response<blogsType[] | blogsType>) => {
+blogsRouter.get('/', (req: Request, res: Response<blogsType[]>) => {
 
     const findBlogs = blogsRepositories.getBlogs()
 
@@ -19,7 +19,7 @@ blogsRouter.get('/', (req: Request, res: Response<blogsType[] | blogsType>) => {
     }
 
 })
-blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Response<blogsType[] | blogsType>) => {
+blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Response<blogsType>) => {
 
     const findBlog = blogsRepositories.findBlog(req.params.id)
 
@@ -38,7 +38,7 @@ blogsRouter.post('/',
 
     createBlogValidation,
 
-    (req: RequestWithBody<CreateBlogsModel | any>, res: Response) => {
+    (req: RequestWithBody<CreateBlogsModel>, res: Response) => {
 
         const newBlog = blogsRepositories.crateBlog(req.body)
         if (newBlog) {

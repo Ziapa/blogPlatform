@@ -1,7 +1,7 @@
-import {postsType} from "../types/postsTypes"
+import {PostsType} from "../types/postsTypes"
 import {blogsRepositories} from "./blogs-repositories";
 
-export const posts: Array<postsType> = [
+export const posts: Array<PostsType> = [
     {
         id: "1",
         title: "name1",
