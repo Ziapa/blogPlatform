@@ -16,6 +16,7 @@ postsRouter.get('/', (req: Request, res: Response<PostsType[]>) => {
 postsRouter.get('/:id', (req: Request, res: Response<PostsType>) => {
     const findPost = postsRepositories.findPost(req.params.id)
 
+
     if (findPost) {
         res.status(200).send(findPost)
     } else {
