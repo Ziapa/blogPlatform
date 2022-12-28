@@ -1,8 +1,9 @@
 import {MongoClient} from "mongodb"
 
-const mongoUri = "mongodb://localhost:27017"
+const mongoUri = "mongodb+srv://Ziapa:Ziapa@samuraidb.bhiinll.mongodb.net/?retryWrites=true&w=majority"
 
 export const client = new MongoClient(mongoUri)
+
 
 export async function runDb() {
     try {

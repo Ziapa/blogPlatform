@@ -20,7 +20,6 @@ app.use('/testing', testingRouter)
 const startApp = async () => {
     await runDb()
     app.listen(PORT, () => {
-
     })
 }
 startApp()
