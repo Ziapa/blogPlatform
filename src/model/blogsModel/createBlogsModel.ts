@@ -1,5 +1,6 @@
 export type CreateBlogsModel = {
-    name: string,
-    description: string,
+    name: string
+    description: string
     websiteUrl: string
+    createdAt:	string
 }

@@ -40,7 +40,8 @@ export const postsRepositories = {
             shortDescription: body.shortDescription,
             content: body.content,
             blogId: blog.id,
-            blogName: blog.name
+            blogName: blog.name,
+            createdAt: new Date().toISOString()
         }
 
         if (newPost) {

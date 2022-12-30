@@ -33,7 +33,8 @@ export const blogsRepositories = {
             id: blogId.length.toString(),
             name: body.name,
             description: body.description,
-            websiteUrl: body.websiteUrl
+            websiteUrl: body.websiteUrl,
+            createdAt: new Date().toISOString()
         }
 
         if (newBlog) {
