@@ -1,33 +1,26 @@
-import {blogsType} from "../types/blogsTypes";
-
-export const blogs : Array<blogsType> = [
-    {
-        id: "1",
-        name: "name1",
-        description: "description1",
-        websiteUrl: "websiteUrl"
-    },
-    {
-        id: "2",
-        name: "name2",
-        description: "description2",
-        websiteUrl: "websiteUrl2"
-    },
-]
+import {BlogsType} from "../types/blogsTypes";
+import {client} from "./db";
+import {WithId} from "mongodb";
 
 let blogId = []
 
-
 export const blogsRepositories = {
 
-    getBlogs() {
-        return blogs
+    async getBlogs(): Promise<WithId<BlogsType[]>[]> {
+
+        return await client.db("blog-platform").collection<BlogsType[]>("blogs").find({}).toArray()
     },
 
-    findBlog(id: string) {
-            return blogs.find(b => b.id === id)
+    async findBlog(id: string): Promise<WithId<BlogsType> | null> {
+        const blog = await client.db("blog-platform").collection<BlogsType>("blogs").findOne({id: {$regex: id}})
+        if (blog) {
+            return blog
+        } else {
+            return null
+        }
+
     },
-    crateBlog(body: { name: string, description: string, websiteUrl: string }) {
+    async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsType | undefined> {
 
         const newBlog = {
             id: blogId.length.toString(),
@@ -37,29 +30,22 @@ export const blogsRepositories = {
             createdAt: new Date().toISOString()
         }
 
-        if (newBlog) {
-            blogId.push(blogId.length + 1)
-            blogs.push(newBlog)
-            return newBlog
-        }
+        // const result =
+        await client.db("blog-platform").collection<BlogsType>("blogs").insertOne(newBlog)
+
+        return newBlog
+
     },
-    updateBlog(id:string, body: { name: string, description: string, websiteUrl: string }) {
-        const updateBlog = blogs.find(b => b.id === id)
-        if (updateBlog) {
-            updateBlog.name = body.name
-            updateBlog.websiteUrl = body.websiteUrl
-            updateBlog.description = body.description
-            return true
-        } else {
-            return false
-        }
+    async updateBlog(id: string, body: { name: string, description: string, websiteUrl: string }): Promise<boolean> {
+        const result = await client.db("blog-platform").collection<BlogsType>("blogs").updateOne({id: id},
+            {$set: {name: body.name, websiteUrl: body.websiteUrl, description: body.description}})
+
+        return result.matchedCount === 1
     },
-    deletedBlog(id:string) {
-        for (let i = 0; i < blogs.length; i++) {
-            if (blogs[i].id === id) {
-                blogs.splice(i, 1)
-                return true
-            }
-        }
+    async deletedBlog(id: string): Promise<boolean | undefined> {
+        const result = await client.db("blog-platform").collection<BlogsType>("blogs").deleteOne({id: id})
+
+
+        return result.deletedCount === 1
     }
 }

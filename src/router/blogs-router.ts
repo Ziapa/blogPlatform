@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {blogsRepositories} from "../repositories/blogs-repositories";
-import {blogsType} from "../types/blogsTypes";
+import {BlogsType} from "../types/blogsTypes";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
@@ -10,18 +10,18 @@ import {createBlogValidation, updateBlogValidation} from "../validation/blogs-va
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', (req: Request, res: Response<blogsType[]>) => {
+ blogsRouter.get('/', async (req: Request, res: Response<BlogsType[]>) => {
 
-    const findBlogs = blogsRepositories.getBlogs()
+    const findBlogs = await blogsRepositories.getBlogs()
 
     if (findBlogs) {
         res.status(200).send(findBlogs)
     }
 
 })
-blogsRouter.get('/:id', (req: RequestWithParams<QueryBlogsModelType>, res: Response<blogsType>) => {
+blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsType>) => {
 
-    const findBlog = blogsRepositories.findBlog(req.params.id)
+    const findBlog = await blogsRepositories.findBlog(req.params.id)
 
     if (findBlog) {
         res.status(200).send(findBlog)
@@ -38,9 +38,9 @@ blogsRouter.post('/',
 
     createBlogValidation,
 
-    (req: RequestWithBody<CreateBlogsModel>, res: Response) => {
+    async (req: RequestWithBody<CreateBlogsModel>, res: Response) => {
 
-        const newBlog = blogsRepositories.crateBlog(req.body)
+        const newBlog = await blogsRepositories.crateBlog(req.body)
         if (newBlog) {
             res.status(201).send(newBlog)
         } else {
@@ -53,8 +53,8 @@ blogsRouter.put('/:id',
 
     updateBlogValidation,
 
-    (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
-        const updateBlog = blogsRepositories.updateBlog(req.params.id, req.body)
+    async (req: RequestWithParamsAndBody<QueryBlogsModelType, CreateBlogsModel>, res: Response) => {
+        const updateBlog = await blogsRepositories.updateBlog(req.params.id, req.body)
         if (updateBlog) {
             res.sendStatus(204)
         } else {
@@ -65,8 +65,8 @@ blogsRouter.delete('/:id',
 
     basicAuthorization,
 
-    (req: Request, res: Response) => {
-        if (blogsRepositories.deletedBlog(req.params.id)) {
+    async (req: Request, res: Response) => {
+        if (await blogsRepositories.deletedBlog(req.params.id)) {
             res.sendStatus(204)
         } else {
             res.sendStatus(404)
