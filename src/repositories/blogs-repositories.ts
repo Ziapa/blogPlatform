@@ -1,18 +1,20 @@
 import {BlogsType} from "../types/blogsTypes";
-import {client} from "./db";
+import {blogsCollection} from "./db";
 import {WithId} from "mongodb";
 
 let blogId = []
 
+
 export const blogsRepositories = {
 
-    async getBlogs(): Promise<WithId<BlogsType[]>[]> {
+    async getBlogs(): Promise<BlogsType[]> {
 
-        return await client.db("blog-platform").collection<BlogsType[]>("blogs").find({}).toArray()
+        return await blogsCollection.find({}).toArray()
     },
 
     async findBlog(id: string): Promise<WithId<BlogsType> | null> {
-        const blog = await client.db("blog-platform").collection<BlogsType>("blogs").findOne({id: {$regex: id}})
+
+        const blog = await blogsCollection.findOne({id: {$regex: id}})
         if (blog) {
             return blog
         } else {
@@ -31,19 +33,19 @@ export const blogsRepositories = {
         }
 
         // const result =
-        await client.db("blog-platform").collection<BlogsType>("blogs").insertOne(newBlog)
+        await blogsCollection.insertOne(newBlog)
 
         return newBlog
 
     },
     async updateBlog(id: string, body: { name: string, description: string, websiteUrl: string }): Promise<boolean> {
-        const result = await client.db("blog-platform").collection<BlogsType>("blogs").updateOne({id: id},
+        const result = await blogsCollection.updateOne({id: id},
             {$set: {name: body.name, websiteUrl: body.websiteUrl, description: body.description}})
 
         return result.matchedCount === 1
     },
     async deletedBlog(id: string): Promise<boolean | undefined> {
-        const result = await client.db("blog-platform").collection<BlogsType>("blogs").deleteOne({id: id})
+        const result = await blogsCollection.deleteOne({id: id})
 
 
         return result.deletedCount === 1

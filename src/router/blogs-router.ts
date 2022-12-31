@@ -10,12 +10,14 @@ import {createBlogValidation, updateBlogValidation} from "../validation/blogs-va
 
 export const blogsRouter = Router()
 
- blogsRouter.get('/', async (req: Request, res: Response<BlogsType[]>) => {
+blogsRouter.get('/', async (req: Request, res: Response<BlogsType[]>) => {
 
     const findBlogs = await blogsRepositories.getBlogs()
 
     if (findBlogs) {
         res.status(200).send(findBlogs)
+    } else {
+        res.sendStatus(404)
     }
 
 })

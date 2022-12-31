@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runDb = exports.client = void 0;
+exports.runDb = exports.blogsCollection = exports.client = void 0;
 const mongodb_1 = require("mongodb");
 const mongoUri = "mongodb+srv://Ziapa:Ziapa@samuraidb.bhiinll.mongodb.net/?retryWrites=true&w=majority";
 exports.client = new mongodb_1.MongoClient(mongoUri);
+const db = exports.client.db("blog-platform");
+exports.blogsCollection = db.collection("blogs");
 function runDb() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
