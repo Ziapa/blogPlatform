@@ -22,6 +22,9 @@ export const postsRepositories = {
         }
     },
     async createPost(body: { title: string, shortDescription: string, content: string, blogId: string }): Promise<PostsType | null | undefined> {
+
+        const createAt = new Date().toISOString()
+
         const blog = await blogsRepositories.findBlog(body.blogId)
         if (!blog) return null
         console.log(blog)
@@ -32,7 +35,7 @@ export const postsRepositories = {
             content: body.content,
             blogId: blog.id,
             blogName: blog.name,
-            createdAt: new Date().toISOString()
+            createdAt: createAt
         }
 
         await postsCollection.insertOne(newPost)

@@ -24,12 +24,14 @@ export const blogsRepositories = {
     },
     async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsType | undefined> {
 
+        const createAt = new Date().toISOString()
+
         const newBlog = {
             id: blogId.length.toString(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl,
-            createdAt: new Date().toISOString()
+            createdAt: createAt
         }
 
         // const result =
