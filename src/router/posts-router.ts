@@ -10,11 +10,18 @@ import {QueryPostModelType} from "../model/postsModel/queryPostModel";
 
 export const postsRouter = Router()
 
-postsRouter.get('/', (req: Request, res: Response<PostsType[]>) => {
-    res.status(200).send(postsRepositories.getPost())
+postsRouter.get('/', async (req: Request, res: Response<PostsType[]>) => {
+
+    const findPosts = await postsRepositories.getPost()
+
+    if (findPosts) {
+        res.status(200).send(findPosts)
+    } else {
+        res.sendStatus(400)
+    }
 })
-postsRouter.get('/:id', (req: Request, res: Response<PostsType>) => {
-    const findPost = postsRepositories.findPost(req.params.id)
+postsRouter.get('/:id', async (req: Request, res: Response<PostsType>) => {
+    const findPost = await postsRepositories.findPost(req.params.id)
 
 
     if (findPost) {
@@ -30,8 +37,8 @@ postsRouter.post('/',
 
     createPostValidation,
 
-    (req: RequestWithBody<CreatePostModelType>, res: Response) => {
-        const newPost = postsRepositories.createPost(req.body)
+    async (req: RequestWithBody<CreatePostModelType>, res: Response) => {
+        const newPost = await postsRepositories.createPost(req.body)
         if (newPost) {
             res.status(201).send(newPost)
         } else {
@@ -45,8 +52,8 @@ postsRouter.put('/:id',
 
     updatePostValidation,
 
-    (req: RequestWithParamsAndBody<QueryPostModelType, CreatePostModelType>, res: Response) => {
-        const updatePost = postsRepositories.updatePost(req.params.id, req.body)
+    async (req: RequestWithParamsAndBody<QueryPostModelType, CreatePostModelType>, res: Response) => {
+        const updatePost = await postsRepositories.updatePost(req.params.id, req.body)
         if (updatePost) {
             res.sendStatus(204)
         } else {
@@ -58,8 +65,8 @@ postsRouter.delete('/:id',
 
     basicAuthorization,
 
-    (req: RequestWithParams<QueryPostModelType>, res: Response) => {
-        if (postsRepositories.deletePost(req.params.id)) {
+    async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
+        if (await postsRepositories.deletePost(req.params.id)) {
             res.sendStatus(204)
         } else {
             res.sendStatus(404)

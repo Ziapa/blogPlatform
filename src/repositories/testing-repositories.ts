@@ -1,11 +1,10 @@
-import {blogs} from "./blogs-repositories";
-import { posts } from "./posts-repositories";
+import {blogsCollection, postsCollection} from "./db";
 
 
 export const testingRepositories = {
-    deleteAll() {
-        blogs.splice(0)
-        posts.splice(0)
+    async deleteAll() {
+        await blogsCollection.deleteMany({})
+        await postsCollection.deleteMany({})
         return true
     }
 }
