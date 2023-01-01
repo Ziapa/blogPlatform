@@ -25,7 +25,7 @@ export const postsRepositories = {
     // TODO
 
     async filterPostsByUserId(id: string): Promise<WithId<PostsType>[] | null> {
-        const posts = await postsCollection.find({blogId: id}).toArray()
+        const posts = await postsCollection.find({blogId: id}, {projection: {_id: 0}}).toArray()
         if (posts) {
             return posts
         } else {
