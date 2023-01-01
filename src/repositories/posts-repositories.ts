@@ -3,7 +3,7 @@ import {blogsRepositories} from "./blogs-repositories";
 import {postsCollection} from "./db";
 import {WithId} from "mongodb";
 
-const postId = []
+
 const createAt = new Date().toISOString()
 
 export const postsRepositories = {
@@ -24,11 +24,10 @@ export const postsRepositories = {
     },
     async createPost(body: { title: string, shortDescription: string, content: string, blogId: string }): Promise<PostsType | null | undefined> {
 
-
+        const postId = await postsCollection.find({},{projection: {_id: 0}}).toArray()
 
         const blog = await blogsRepositories.findBlog(body.blogId)
         if (!blog) return null
-        console.log(blog)
         const newPost = {
             id: postId.length.toString(),
             title: body.title,
@@ -38,6 +37,7 @@ export const postsRepositories = {
             blogName: blog.name,
             createdAt: createAt
         }
+
 
         await postsCollection.insertOne(newPost)
 

@@ -2,9 +2,6 @@ import {BlogsType} from "../types/blogsTypes";
 import {blogsCollection} from "./db";
 import {WithId} from "mongodb";
 
-let blogId = []
-
-
 export const blogsRepositories = {
 
     async getBlogs(): Promise<BlogsType[]> {
@@ -24,6 +21,7 @@ export const blogsRepositories = {
     },
     async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsType | undefined> {
 
+        const blogId = await blogsCollection.find({},{projection: {_id: 0}}).toArray()
         const createAt = new Date().toISOString()
 
         const newBlog = {
