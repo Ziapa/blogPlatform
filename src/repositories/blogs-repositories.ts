@@ -9,12 +9,12 @@ export const blogsRepositories = {
 
     async getBlogs(): Promise<BlogsType[]> {
 
-        return await blogsCollection.find({}).toArray()
+        return await blogsCollection.find({},{projection: {_id: 0}}).toArray()
     },
 
     async findBlog(id: string): Promise<WithId<BlogsType> | null> {
 
-        const blog = await blogsCollection.findOne({id: {$regex: id}})
+        const blog = await blogsCollection.findOne({id: {$regex: id}},{projection: {_id: 0}})
         if (blog) {
             return blog
         } else {

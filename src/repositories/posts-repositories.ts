@@ -4,16 +4,17 @@ import {postsCollection} from "./db";
 import {WithId} from "mongodb";
 
 const postId = []
+const createAt = new Date().toISOString()
 
 export const postsRepositories = {
 
     async getPost(): Promise<WithId<PostsType>[]> {
 
-        return postsCollection.find({}).toArray()
+        return postsCollection.find({},{projection: {_id: 0}}).toArray()
     },
     async findPost(id: string): Promise<WithId<PostsType> | null> {
 
-        const blog = await postsCollection.findOne({id: {$regex: id}})
+        const blog = await postsCollection.findOne({id: {$regex: id}},{projection: {_id: 0}})
 
         if (blog) {
             return blog
@@ -23,7 +24,7 @@ export const postsRepositories = {
     },
     async createPost(body: { title: string, shortDescription: string, content: string, blogId: string }): Promise<PostsType | null | undefined> {
 
-        const createAt = new Date().toISOString()
+
 
         const blog = await blogsRepositories.findBlog(body.blogId)
         if (!blog) return null
