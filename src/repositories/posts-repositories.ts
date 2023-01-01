@@ -22,6 +22,16 @@ export const postsRepositories = {
             return null
         }
     },
+    // TODO
+
+    async filterPostsByUserId(id: string): Promise<WithId<PostsType>[] | null> {
+        const posts = await postsCollection.find({id: id}).toArray()
+        if (posts) {
+            return posts
+        } else {
+            return null
+        }
+    },
     async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsType | null | undefined> {
 
         // TODO

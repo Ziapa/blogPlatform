@@ -91,8 +91,16 @@ blogsRouter.post('/:id/posts',
         } else {
             res.sendStatus(401)
         }
-    },
-    blogsRouter.get('/:id/post',
-        )
+    }
+)
+blogsRouter.get('/:id/posts',
+    async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
+        const findPostsByUserId = await postsRepositories.filterPostsByUserId(req.params.id)
+        if (findPostsByUserId) {
+            res.status(200).send(findPostsByUserId)
+        } else {
+            res.sendStatus(404)
+        }
+    }
 )
 
