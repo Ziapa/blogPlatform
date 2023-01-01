@@ -5,3 +5,9 @@ export type CreatePostModelType = {
     blogId: string
     createdAt:	string
 }
+
+export type CreateBlogByUserIdType = {
+    title: string
+    shortDescription: string
+    content: string
+}

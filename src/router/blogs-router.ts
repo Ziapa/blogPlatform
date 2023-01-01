@@ -5,7 +5,12 @@ import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../t
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
-import {createBlogValidation, updateBlogValidation} from "../validation/blogs-validation";
+import {createPostByUserIdValidation, createBlogValidation, updateBlogValidation} from "../validation/blogs-validation";
+import {QueryPostModelType} from "../model/postsModel/queryPostModel";
+import {
+    CreateBlogByUserIdType,
+} from "../model/postsModel/createPostModel";
+import {postsRepositories} from "../repositories/posts-repositories";
 
 
 export const blogsRouter = Router()
@@ -74,4 +79,20 @@ blogsRouter.delete('/:id',
             res.sendStatus(404)
         }
     })
+
+// TODO
+blogsRouter.post('/:id/posts',
+    basicAuthorization,
+    createPostByUserIdValidation,
+    async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
+        const newPost = await postsRepositories.createPost(req.body, req.params.id)
+        if (newPost) {
+            res.status(201).send(newPost)
+        } else {
+            res.sendStatus(401)
+        }
+    },
+    blogsRouter.get('/:id/post',
+        )
+)
 

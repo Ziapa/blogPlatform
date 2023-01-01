@@ -3,22 +3,22 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
 
-const titleValidation = body('title')
+export const titleValidation = body('title')
     .isString()
     .trim().notEmpty()
     .isLength({max: 30})
 
-const shortDescriptionValidation = body('shortDescription')
+export const shortDescriptionValidation = body('shortDescription')
     .isString()
     .trim().notEmpty()
     .isLength({max: 100})
 
-const contentValidation = body('content')
+export const contentValidation = body('content')
     .isString()
     .trim().notEmpty()
     .isLength({max: 1000})
 
-const blogIdValidation = body('blogId')
+export const blogIdValidation = body('blogId')
     .isString()
     .trim().notEmpty()
     .custom(value => {
@@ -44,3 +44,4 @@ export const updatePostValidation = [
     blogIdValidation,
     inputValidationMiddleware
 ]
+
