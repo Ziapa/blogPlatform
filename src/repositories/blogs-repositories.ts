@@ -1,8 +1,7 @@
 import {BlogsType} from "../types/blogsTypes";
 import {blogsCollection} from "./db";
-import {WithId} from "mongodb";
+import {InsertOneResult, WithId} from "mongodb";
 
-const createAt = new Date().toISOString()
 
 export const blogsRepositories = {
 
@@ -21,23 +20,8 @@ export const blogsRepositories = {
         }
 
     },
-    async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsType | undefined> {
-
-        const blogId = await blogsCollection.find({}, {projection: {_id: 0}}).toArray()
-
-        const newBlog = {
-            id: blogId.length.toString(),
-            name: body.name,
-            description: body.description,
-            websiteUrl: body.websiteUrl,
-            createdAt: createAt
-        }
-
-        // const result =
-        await blogsCollection.insertOne(newBlog)
-
-        return newBlog
-
+    async crateBlog(newBlog: BlogsType): Promise<InsertOneResult<BlogsType>> {
+        return await blogsCollection.insertOne(newBlog)
     },
     async updateBlog(id: string, body: { name: string, description: string, websiteUrl: string }): Promise<boolean> {
         const result = await blogsCollection.updateOne({id: id},

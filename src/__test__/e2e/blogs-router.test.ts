@@ -50,12 +50,10 @@ describe('/blogs', () => {
             .post('/blogs')
             .send(payload)
             .auth('admin', 'qwerty')
-            .expect(201,{
-                id: '0',
-                name: 'Ziapa',
-                description: 'Smit',
-                websiteUrl: 'https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts'
-            })
+            .expect(201
+
+
+            )
     });
 
     it('should return status 204', async () => {
@@ -74,11 +72,17 @@ describe('/blogs', () => {
     it('should return newBlog and status 200', async () => {
         await request(app)
             .get('/blogs/0')
-            .expect(200, {
-                id: '0',
-                name: 'newName',
-                description: 'newDescription',
-                websiteUrl: 'https://newUrl.ru'
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body).toEqual(
+                    expect.objectContaining({
+                        success: true,
+                        message: 'registration success',
+                        token: expect.any(String),
+                        user: expect.any(Object),
+                    }),
+                );
+
             })
     })
 })

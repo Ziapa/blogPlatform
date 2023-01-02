@@ -25,14 +25,14 @@ export const postsRepositories = {
     // TODO
 
     async filterPostsByUserId(id: string): Promise<WithId<PostsType>[] | null> {
-        const posts = await postsCollection.find({blogId: id}, {projection: {_id: 0}}).toArray()
+        const posts = await postsCollection.find({blogId: id}, {projection: {_id: false}}).toArray()
         if (posts) {
             return posts
         } else {
             return null
         }
     },
-    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsType | null | undefined> {
+    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsType | null > {
 
         // TODO
 
@@ -41,7 +41,7 @@ export const postsRepositories = {
         const blog = await blogsRepositories.findBlog(idBlog)
 
         if (!blog) return null
-        const postId = await postsCollection.find({}, {projection: {_id: 0}}).toArray()
+        const postId = await postsCollection.find({}).toArray()
         const newPost = {
             id: postId.length.toString(),
             title: body.title,
