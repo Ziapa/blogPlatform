@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsServices = void 0;
 const blogs_repositories_1 = require("../repositories/blogs-repositories");
-const db_1 = require("../repositories/db");
+const uuid_1 = require("uuid");
 exports.blogsServices = {
     getBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,9 +25,8 @@ exports.blogsServices = {
     },
     crateBlog(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const blogId = yield db_1.blogsCollection.find({}, { projection: { _id: 0 } }).toArray();
             const newBlog = {
-                id: blogId.length.toString(),
+                id: uuid_1.v4.toString(),
                 name: body.name,
                 description: body.description,
                 websiteUrl: body.websiteUrl,

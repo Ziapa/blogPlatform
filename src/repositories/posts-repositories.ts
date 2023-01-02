@@ -2,6 +2,7 @@ import {PostsType} from "../types/postsTypes"
 import {blogsRepositories} from "./blogs-repositories";
 import {postsCollection} from "./db";
 import {WithId} from "mongodb";
+import { v4 as uuidV4 } from 'uuid';
 
 
 const createAt = new Date().toISOString()
@@ -41,9 +42,8 @@ export const postsRepositories = {
         const blog = await blogsRepositories.findBlog(idBlog)
 
         if (!blog) return null
-        const postId = await postsCollection.find({}).toArray()
         const newPost = {
-            id: postId.length.toString(),
+            id: uuidV4.toString(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,
