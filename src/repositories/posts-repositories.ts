@@ -1,11 +1,6 @@
 import {PostsType} from "../types/postsTypes"
-import {blogsRepositories} from "./blogs-repositories";
 import {postsCollection} from "./db";
-import {WithId} from "mongodb";
-import { v4 as uuidV4 } from 'uuid';
-
-
-const createAt = new Date().toISOString()
+import {InsertOneResult, WithId} from "mongodb";
 
 export const postsRepositories = {
 
@@ -13,6 +8,7 @@ export const postsRepositories = {
 
         return postsCollection.find({}, {projection: {_id: 0}}).toArray()
     },
+
     async findPost(id: string): Promise<WithId<PostsType> | null> {
 
         const blog = await postsCollection.findOne({id: {$regex: id}}, {projection: {_id: 0}})
@@ -33,26 +29,9 @@ export const postsRepositories = {
             return null
         }
     },
-    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsType | null > {
 
-        // TODO
-
-        const idBlog = id ? id : body.blogId
-
-        const blog = await blogsRepositories.findBlog(idBlog)
-
-        if (!blog) return null
-        const newPost = {
-            id: uuidV4.toString(),
-            title: body.title,
-            shortDescription: body.shortDescription,
-            content: body.content,
-            blogId: blog.id,
-            blogName: blog.name,
-            createdAt: createAt
-        }
-        await postsCollection.insertOne(newPost)
-        return newPost
+    async createPost(newPost: PostsType): Promise<InsertOneResult<PostsType>> {
+        return await postsCollection.insertOne(newPost)
     },
 
     async updatePost(id: string, body: {
@@ -70,6 +49,7 @@ export const postsRepositories = {
 
         return result.matchedCount === 1
     },
+
     async deletePost(id: string): Promise<Boolean | undefined> {
         const result = await postsCollection.deleteOne({id: id})
 

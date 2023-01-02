@@ -9,8 +9,8 @@ import {QueryPostModelType} from "../model/postsModel/queryPostModel";
 import {
     CreateBlogByUserIdType,
 } from "../model/postsModel/createPostModel";
-import {postsRepositories} from "../repositories/posts-repositories";
 import {blogsServices} from "../domain/blogs-services";
+import {postsServices} from "../domain/posts-services";
 
 
 export const blogsRouter = Router()
@@ -85,7 +85,7 @@ blogsRouter.post('/:id/posts',
     basicAuthorization,
     createPostByUserIdValidation,
     async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
-        const newPost = await postsRepositories.createPost(req.body, req.params.id)
+        const newPost = await postsServices.createPost(req.body, req.params.id)
         if (newPost) {
             res.status(201).send(newPost)
         } else {
@@ -95,7 +95,7 @@ blogsRouter.post('/:id/posts',
 )
 blogsRouter.get('/:id/posts',
     async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
-        const findPostsByUserId = await postsRepositories.filterPostsByUserId(req.params.id)
+        const findPostsByUserId = await postsServices.filterPostsByUserId(req.params.id)
         if (findPostsByUserId) {
             res.status(200).send(findPostsByUserId)
         } else {
