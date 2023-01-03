@@ -5,3 +5,10 @@ export type BlogsType = {
     websiteUrl: string
 }
 
+export type BlogsOutputType = {
+    _id: string
+    name: string
+    description: string
+    websiteUrl: string
+}
+

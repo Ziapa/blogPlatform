@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
 import {createPostValidation, updatePostValidation} from "../validation/posts-validation";
-import {PostsType} from "../types/postsTypes";
+import {PostsOutputType} from "../types/postsTypes";
 import {CreatePostModelType} from "../model/postsModel/createPostModel";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {QueryPostModelType} from "../model/postsModel/queryPostModel";
@@ -10,7 +10,7 @@ import {postsServices} from "../domain/posts-services";
 
 export const postsRouter = Router()
 
-postsRouter.get('/', async (req: Request, res: Response<PostsType[]>) => {
+postsRouter.get('/', async (req: Request, res: Response<PostsOutputType[]>) => {
 
     const findPosts = await postsServices.getPost()
 
@@ -20,7 +20,7 @@ postsRouter.get('/', async (req: Request, res: Response<PostsType[]>) => {
         res.sendStatus(400)
     }
 })
-postsRouter.get('/:id', async (req: Request, res: Response<PostsType>) => {
+postsRouter.get('/:id', async (req: Request, res: Response<PostsOutputType>) => {
     const findPost = await postsServices.findPost(req.params.id)
 
 

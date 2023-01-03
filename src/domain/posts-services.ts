@@ -1,25 +1,24 @@
-import {PostsType} from "../types/postsTypes"
-import {InsertOneResult, WithId} from "mongodb";
-import {v4 as uuidV4} from 'uuid';
+import {PostsOutputType} from "../types/postsTypes"
+import {ObjectId} from "mongodb";
 import {postsRepositories} from "../repositories/posts-repositories";
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
 export const postsServices = {
 
-    async getPost(): Promise<WithId<PostsType>[]> {
+    async getPost(): Promise<PostsOutputType[]> {
         return await postsRepositories.getPost()
     },
 
-    async findPost(id: string): Promise<WithId<PostsType> | null> {
+    async findPost(id: string): Promise<PostsOutputType | null> {
         return await postsRepositories.findPost(id)
     },
     // TODO
 
-    async filterPostsByUserId(id: string): Promise<WithId<PostsType>[] | null> {
+    async filterPostsByUserId(id: string): Promise<PostsOutputType[] | null> {
         return await postsRepositories.filterPostsByUserId(id)
     },
 
-    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<InsertOneResult<PostsType> | null> {
+    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsOutputType | null> {
 
         // TODO
 
@@ -29,7 +28,7 @@ export const postsServices = {
 
         if (!blog) return null
         const newPost = {
-            id: uuidV4.toString(),
+            _id: ObjectId,
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

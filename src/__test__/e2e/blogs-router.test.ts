@@ -24,7 +24,7 @@ describe('/blogs', () => {
         await request(app)
             .post('/blogs')
             .send(payload)
-            .expect(401)
+            .expect(401, {})
     });
 
     it('should return Bad Request status 400', async () => {
@@ -37,7 +37,7 @@ describe('/blogs', () => {
             .post('/blogs')
             .send(payload)
             .auth('admin', 'qwerty')
-            .expect(400)
+            .expect(400,{ errorsMessages: [ { message: 'Invalid value', field: 'name' }]})
     });
 
     it('should return new blog and status 201', async () => {
@@ -73,17 +73,6 @@ describe('/blogs', () => {
         await request(app)
             .get('/blogs/0')
             .expect(200)
-            .end((err, res) => {
-                expect(res.body).toEqual(
-                    expect.objectContaining({
-                        success: true,
-                        message: 'registration success',
-                        token: expect.any(String),
-                        user: expect.any(Object),
-                    }),
-                );
-
-            })
     })
 })
 

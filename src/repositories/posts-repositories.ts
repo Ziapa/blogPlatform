@@ -1,37 +1,74 @@
-import {PostsType} from "../types/postsTypes"
+import {PostsDbType, PostsOutputType} from "../types/postsTypes"
 import {postsCollection} from "./db";
-import {InsertOneResult, WithId} from "mongodb";
 
 export const postsRepositories = {
 
-    async getPost(): Promise<WithId<PostsType>[]> {
+    async getPost(): Promise<PostsOutputType[]> {
 
-        return postsCollection.find({}, {projection: {_id: 0}}).toArray()
+        const posts = await postsCollection.find({}, {projection: {_id: 0}}).toArray()
+
+        return posts.map((el: PostsDbType) => {
+            return {
+                id: el._id.toString(),
+                title: el.title,
+                shortDescription: el.shortDescription,
+                content: el.content,
+                blogId: el.blogId,
+                blogName: el.blogName
+            }
+        })
     },
 
-    async findPost(id: string): Promise<WithId<PostsType> | null> {
+    async findPost(id: string): Promise<PostsOutputType | null> {
 
-        const blog = await postsCollection.findOne({id: {$regex: id}}, {projection: {_id: 0}})
+        const post = await postsCollection.findOne({id: {$regex: id}}, {projection: {_id: 0}})
 
-        if (blog) {
-            return blog
+        if (post) {
+            return {
+                id: post._id.toString(),
+                title: post.title,
+                shortDescription: post.shortDescription,
+                content: post.content,
+                blogId: post.blogId,
+                blogName: post.blogName
+            }
         } else {
             return null
         }
     },
     // TODO
 
-    async filterPostsByUserId(id: string): Promise<WithId<PostsType>[] | null> {
+    async filterPostsByUserId(id: string): Promise<PostsOutputType[] | null> {
         const posts = await postsCollection.find({blogId: id}, {projection: {_id: false}}).toArray()
         if (posts) {
-            return posts
+            return posts.map((el: PostsDbType) => {
+                return {
+                    id: el._id.toString(),
+                    title: el.title,
+                    shortDescription: el.shortDescription,
+                    content: el.content,
+                    blogId: el.blogId,
+                    blogName: el.blogName
+                }
+            })
         } else {
             return null
         }
     },
 
-    async createPost(newPost: PostsType): Promise<InsertOneResult<PostsType>> {
-        return await postsCollection.insertOne(newPost)
+    async createPost(newPost: PostsDbType): Promise<PostsOutputType> {
+
+        const result = await postsCollection.insertOne(newPost)
+
+        return {
+            id: result.insertedId.toString(),
+            title: newPost.title,
+            shortDescription: newPost.shortDescription,
+            content: newPost.content,
+            blogId: newPost.blogId,
+            blogName: newPost.blogName
+        }
+
     },
 
     async updatePost(id: string, body: {
