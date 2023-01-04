@@ -1,4 +1,5 @@
 import {PostsOutputType} from "../types/postsTypes"
+import { v4 as uuidV4 } from 'uuid'
 import {postsRepositories} from "../repositories/posts-repositories";
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
@@ -27,6 +28,7 @@ export const postsServices = {
 
         if (!blog) return null
         const newPost = {
+            id: uuidV4(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

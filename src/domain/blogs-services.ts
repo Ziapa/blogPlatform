@@ -1,4 +1,5 @@
 import {BlogsOutputType} from "../types/blogsTypes";
+import { v4 as uuidV4 } from 'uuid'
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
 export const blogsServices = {
@@ -15,6 +16,7 @@ export const blogsServices = {
 
 
         const newBlog = {
+            _id: uuidV4(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl,
