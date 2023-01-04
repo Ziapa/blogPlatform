@@ -1,5 +1,4 @@
 import {BlogsOutputType} from "../types/blogsTypes";
-import {ObjectId} from "mongodb";
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
 export const blogsServices = {
@@ -16,7 +15,6 @@ export const blogsServices = {
 
 
         const newBlog = {
-            _id: ObjectId,
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl,

@@ -1,5 +1,4 @@
 import {PostsOutputType} from "../types/postsTypes"
-import {ObjectId} from "mongodb";
 import {postsRepositories} from "../repositories/posts-repositories";
 import {blogsRepositories} from "../repositories/blogs-repositories";
 
@@ -28,7 +27,6 @@ export const postsServices = {
 
         if (!blog) return null
         const newPost = {
-            _id: ObjectId,
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,
