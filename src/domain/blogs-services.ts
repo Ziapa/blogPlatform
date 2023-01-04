@@ -1,23 +1,22 @@
-import {BlogsType} from "../types/blogsTypes";
-import {InsertOneResult, WithId} from "mongodb";
+import {BlogsOutputType} from "../types/blogsTypes";
+import {ObjectId} from "mongodb";
 import {blogsRepositories} from "../repositories/blogs-repositories";
-import { v4 as uuidV4 } from 'uuid';
 
 export const blogsServices = {
 
-    async getBlogs(): Promise<BlogsType[]> {
+    async getBlogs(): Promise<BlogsOutputType[]> {
         return await blogsRepositories.getBlogs()
     },
 
-    async findBlog(id: string | undefined): Promise<WithId<BlogsType> | null> {
+    async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
         return await blogsRepositories.findBlog(id)
     },
 
-    async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<InsertOneResult<BlogsType>> {
+    async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsOutputType> {
 
 
         const newBlog = {
-            id: uuidV4.toString(),
+            _id: ObjectId,
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl,

@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import {BlogsType} from "../types/blogsTypes";
+import {BlogsOutputType} from "../types/blogsTypes";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
@@ -15,7 +15,7 @@ import {postsServices} from "../domain/posts-services";
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', async (req: Request, res: Response<BlogsType[]>) => {
+blogsRouter.get('/', async (req: Request, res: Response<BlogsOutputType[]>) => {
 
     const findBlogs = await blogsServices.getBlogs()
 
@@ -26,7 +26,7 @@ blogsRouter.get('/', async (req: Request, res: Response<BlogsType[]>) => {
     }
 
 })
-blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsType>) => {
+blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsOutputType>) => {
 
     const findBlog = await blogsServices.findBlog(req.params.id)
 

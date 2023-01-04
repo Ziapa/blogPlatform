@@ -1,14 +1,18 @@
-export type BlogsType = {
+import { ObjectId } from "mongodb"
+
+export type BlogsDbType = {
+    _id: typeof ObjectId
+    name: string
+    description: string
+    websiteUrl: string
+    createdAt: string
+}
+
+export type BlogsOutputType = {
     id: string
     name: string
     description: string
     websiteUrl: string
-}
-
-export type BlogsOutputType = {
-    _id: string
-    name: string
-    description: string
-    websiteUrl: string
+    createdAt: string
 }
 
