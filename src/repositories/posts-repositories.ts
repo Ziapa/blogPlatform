@@ -5,9 +5,9 @@ export const postsRepositories = {
 
     async getPost(): Promise<PostsOutputType[]> {
 
-        const posts = await postsCollection.find({}, {projection: {_id: 0}}).toArray()
+        const findPosts = await postsCollection.find({}).toArray()
 
-        return posts.map((el: PostsDbType) => {
+        return findPosts.map(el => {
             return {
                 id: el._id.toString(),
                 title: el.title,
@@ -21,16 +21,16 @@ export const postsRepositories = {
 
     async findPost(id: string): Promise<PostsOutputType | null> {
 
-        const post = await postsCollection.findOne({id: {$regex: id}}, {projection: {_id: 0}})
+        const findPost = await postsCollection.findOne({id: {$regex: id}})
 
-        if (post) {
+        if (findPost) {
             return {
-                id: post._id.toString(),
-                title: post.title,
-                shortDescription: post.shortDescription,
-                content: post.content,
-                blogId: post.blogId,
-                blogName: post.blogName
+                id: findPost._id.toString(),
+                title: findPost.title,
+                shortDescription: findPost.shortDescription,
+                content: findPost.content,
+                blogId: findPost.blogId,
+                blogName: findPost.blogName
             }
         } else {
             return null
@@ -39,17 +39,17 @@ export const postsRepositories = {
     // TODO
 
     async filterPostsByUserId(id: string): Promise<PostsOutputType[] | null> {
-        const posts = await postsCollection.find({blogId: id}, {projection: {_id: false}}).toArray()
+        const posts = await postsCollection.find({blogId: id}).toArray()
         if (posts) {
-            return posts.map((el: PostsDbType) => {
-                return {
-                    id: el._id.toString(),
-                    title: el.title,
-                    shortDescription: el.shortDescription,
-                    content: el.content,
-                    blogId: el.blogId,
-                    blogName: el.blogName
-                }
+            return posts.map(el => {
+              return {
+                  id: el._id.toString(),
+                  title: el.title,
+                  shortDescription: el.shortDescription,
+                  content: el.content,
+                  blogId: el.blogId,
+                  blogName: el.blogName
+              }
             })
         } else {
             return null
@@ -68,7 +68,6 @@ export const postsRepositories = {
             blogId: newPost.blogId,
             blogName: newPost.blogName
         }
-
     },
 
     async updatePost(id: string, body: {

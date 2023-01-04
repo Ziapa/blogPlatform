@@ -6,7 +6,7 @@ export const blogsRepositories = {
 
     async getBlogs(): Promise<BlogsOutputType[]> {
 
-        const findBlogs = await blogsCollection.find({}, {projection: {_id: 0}}).toArray()
+        const findBlogs = await blogsCollection.find({}).toArray()
 
         return findBlogs.map(el => {
             return {
@@ -21,7 +21,7 @@ export const blogsRepositories = {
 
     async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
 
-        const blog = await blogsCollection.findOne({id: {$regex: id}}, {projection: {_id: 0}})
+        const blog = await blogsCollection.findOne({id: {$regex: id}})
         if (blog) {
             return {
                 id: blog._id.toString(),
