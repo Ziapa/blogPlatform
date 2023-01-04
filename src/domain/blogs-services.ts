@@ -16,7 +16,7 @@ export const blogsServices = {
 
 
         const newBlog = {
-            _id: uuidV4(),
+            id: uuidV4(),
             name: body.name,
             description: body.description,
             websiteUrl: body.websiteUrl,
