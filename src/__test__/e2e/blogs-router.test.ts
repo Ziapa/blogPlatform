@@ -46,14 +46,11 @@ describe('/blogs', () => {
             description: "Smit",
             websiteUrl: "https://github.com/Ziapa/homeWork_01/blob/master/src/router/video-router.ts"
         }
-        await request(app)
+        const response = await request(app)
             .post('/blogs')
             .send(payload)
             .auth('admin', 'qwerty')
-            .expect(201
-
-
-            )
+            expect(response.status).toBe(201)
     });
 
     it('should return status 204', async () => {

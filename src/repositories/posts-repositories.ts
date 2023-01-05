@@ -9,7 +9,7 @@ export const postsRepositories = {
 
         return findPosts.map(el => {
             return {
-                id: el._id.toString(),
+                id: el.id,
                 title: el.title,
                 shortDescription: el.shortDescription,
                 content: el.content,
@@ -21,11 +21,11 @@ export const postsRepositories = {
 
     async findPost(id: string): Promise<PostsOutputType | null> {
 
-        const findPost = await postsCollection.findOne({id: {$regex: id}})
+        const findPost = await postsCollection.findOne({id: id})
 
         if (findPost) {
             return {
-                id: findPost._id.toString(),
+                id: findPost.id,
                 title: findPost.title,
                 shortDescription: findPost.shortDescription,
                 content: findPost.content,
@@ -43,7 +43,7 @@ export const postsRepositories = {
         if (posts) {
             return posts.map(el => {
               return {
-                  id: el._id.toString(),
+                  id: el.id,
                   title: el.title,
                   shortDescription: el.shortDescription,
                   content: el.content,
@@ -56,18 +56,23 @@ export const postsRepositories = {
         }
     },
 
-    async createPost(newPost: PostsDbType): Promise<PostsOutputType> {
+    async createPost(newPost: PostsDbType): Promise<PostsOutputType | null> {
 
         const result = await postsCollection.insertOne(newPost)
 
-        return {
-            id: result.insertedId.toString(),
-            title: newPost.title,
-            shortDescription: newPost.shortDescription,
-            content: newPost.content,
-            blogId: newPost.blogId,
-            blogName: newPost.blogName
+        if (result.acknowledged) {
+            return {
+                id: newPost.id,
+                title: newPost.title,
+                shortDescription: newPost.shortDescription,
+                content: newPost.content,
+                blogId: newPost.blogId,
+                blogName: newPost.blogName
+            }
+        } else {
+            return null
         }
+
     },
 
     async updatePost(id: string, body: {
