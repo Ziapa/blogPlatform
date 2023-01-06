@@ -4,17 +4,6 @@ import {blogsRepositories} from "../repositories/blogs-repositories";
 
 export const blogsServices = {
 
-    async getBlogs(): Promise<BlogsOutputType[]> {
-
-        return await blogsRepositories.getBlogs()
-    },
-
-
-    async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
-
-        return await blogsRepositories.findBlog(id)
-    },
-
 
     async crateBlog(body: { name: string, description: string, websiteUrl: string }): Promise<BlogsOutputType | null > {
 

@@ -11,13 +11,15 @@ import {
 } from "../model/postsModel/createPostModel";
 import {blogsServices} from "../domain/blogs-services";
 import {postsServices} from "../domain/posts-services";
+import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
+import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
 
 export const blogsRouter = Router()
 
 blogsRouter.get('/', async (req: Request, res: Response<BlogsOutputType[]>) => {
 
-    const findBlogs = await blogsServices.getBlogs()
+    const findBlogs = await queryBlogsRepositories.getBlogs()
 
     if (findBlogs) {
         res.status(200).send(findBlogs)
@@ -28,7 +30,7 @@ blogsRouter.get('/', async (req: Request, res: Response<BlogsOutputType[]>) => {
 })
 blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsOutputType>) => {
 
-    const findBlog = await blogsServices.findBlog(req.params.id)
+    const findBlog = await queryBlogsRepositories.findBlog(req.params.id)
 
     if (findBlog) {
         res.status(200).send(findBlog)
@@ -95,7 +97,7 @@ blogsRouter.post('/:id/posts',
 )
 blogsRouter.get('/:id/posts',
     async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
-        const findPostsByUserId = await postsServices.filterPostsByUserId(req.params.id)
+        const findPostsByUserId = await queryPostsRepositories.filterPostsByUserId(req.params.id)
         if (findPostsByUserId) {
             res.status(200).send(findPostsByUserId)
         } else {

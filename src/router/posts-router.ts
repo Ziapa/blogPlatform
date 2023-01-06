@@ -6,13 +6,14 @@ import {CreatePostModelType} from "../model/postsModel/createPostModel";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {QueryPostModelType} from "../model/postsModel/queryPostModel";
 import {postsServices} from "../domain/posts-services";
+import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
 
 export const postsRouter = Router()
 
 postsRouter.get('/', async (req: Request, res: Response<PostsOutputType[]>) => {
 
-    const findPosts = await postsServices.getPost()
+    const findPosts = await queryPostsRepositories.getPost()
 
     if (findPosts) {
         res.status(200).send(findPosts)
@@ -21,7 +22,7 @@ postsRouter.get('/', async (req: Request, res: Response<PostsOutputType[]>) => {
     }
 })
 postsRouter.get('/:id', async (req: Request, res: Response<PostsOutputType>) => {
-    const findPost = await postsServices.findPost(req.params.id)
+    const findPost = await queryPostsRepositories.findPost(req.params.id)
 
 
     if (findPost) {

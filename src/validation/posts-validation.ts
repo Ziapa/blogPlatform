@@ -1,6 +1,6 @@
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
-import {blogsRepositories} from "../repositories/blogs-repositories";
+import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 
 
 export const titleValidation = body('title')
@@ -22,7 +22,7 @@ export const blogIdValidation = body('blogId')
     .isString()
     .trim().notEmpty()
     .custom(value => {
-        const blog = blogsRepositories.findBlog(value)
+        const blog = queryBlogsRepositories.findBlog(value)
         if (!blog) throw new Error()
         return true
     })

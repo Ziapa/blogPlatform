@@ -1,22 +1,10 @@
 import {PostsOutputType} from "../types/postsTypes"
 import { v4 as uuidV4 } from 'uuid'
 import {postsRepositories} from "../repositories/posts-repositories";
-import {blogsRepositories} from "../repositories/blogs-repositories";
+import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 
 export const postsServices = {
 
-    async getPost(): Promise<PostsOutputType[]> {
-        return await postsRepositories.getPost()
-    },
-
-    async findPost(id: string): Promise<PostsOutputType | null> {
-        return await postsRepositories.findPost(id)
-    },
-    // TODO
-
-    async filterPostsByUserId(id: string): Promise<PostsOutputType[] | null> {
-        return await postsRepositories.filterPostsByUserId(id)
-    },
 
     async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsOutputType | null> {
 
@@ -24,7 +12,7 @@ export const postsServices = {
 
         const findBlogId = id ? id : body.blogId
 
-        const blog = await blogsRepositories.findBlog(findBlogId)
+        const blog = await queryBlogsRepositories.findBlog(findBlogId)
 
         if (!blog) return null
         const newPost = {
