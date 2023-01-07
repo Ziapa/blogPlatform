@@ -45,6 +45,7 @@ export const queryPostsRepositories = {
                     id: el.id,
                     title: el.title,
                     shortDescription: el.shortDescription,
+                    createAt: el.createdAt,
                     content: el.content,
                     blogId: el.blogId,
                     blogName: el.blogName
@@ -53,4 +54,6 @@ export const queryPostsRepositories = {
         } else {
             return null
         }
-    },}
+    },
+
+}
