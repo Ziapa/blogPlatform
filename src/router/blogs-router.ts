@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {BlogsOutputType} from "../types/blogsTypes";
-import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
+import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
@@ -14,12 +14,29 @@ import {postsServices} from "../domain/posts-services";
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
+// searchNameTerm=3123&sortBy=createdAt&sortDirection=asc&pageNumber=1&pageSize=10
+
+type queryRequest = {
+    searchNameTerm: string | null
+    sortDirection: "ask" | "desk"
+    pageNumber: number
+    pageSize: number
+    sortBy: string
+}
+
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', async (req: Request, res: Response<BlogsOutputType[]>) => {
+blogsRouter.get('/', async (req: RequestWithQuery<queryRequest>, res: Response<BlogsOutputType[]>) => {
 
-    const findBlogs = await queryBlogsRepositories.getBlogs()
+    const pageSize = req.query.pageSize || 10
+    const pageNumber = req.query.pageNumber || 1
+    const sortDirection = req.query.sortDirection || "desk"
+    const searchNameTerm = req.query.searchNameTerm || null
+    const sortBy = req.query.sortBy || ""
+
+    const findBlogs = await queryBlogsRepositories.getBlogs(searchNameTerm,sortDirection,
+        pageNumber,pageSize, sortBy)
 
     if (findBlogs) {
         res.status(200).send(findBlogs)

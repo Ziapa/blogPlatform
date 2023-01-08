@@ -2,9 +2,32 @@ import {BlogsOutputType} from "../types/blogsTypes";
 import {blogsCollection} from "./db";
 
 export const queryBlogsRepositories = {
-    async getBlogs(): Promise<BlogsOutputType[]> {
+    async getBlogs(
+        searchNameTerm: string | null,
+        sortDirection: "ask" | "desk",
+        pageNumber: number,
+        pageSize: number,
+        sortBy: string,
+    ): Promise<BlogsOutputType[]> {
 
-        const findBlogs = await blogsCollection.find({}).toArray()
+const sort = (sortDirection: "ask" | "desk") => {
+    if (sortDirection === "ask") {
+        return -1
+    } else {
+        return 1
+    }
+}
+
+const skipped = (pageNumber: number, pageSize: number) => {
+    return (pageNumber - 1) * pageSize
+}
+
+        const findBlogs = await blogsCollection
+            .find({name: {$regex: searchNameTerm ? searchNameTerm : ''}})
+            .skip(skipped(pageNumber,pageSize))
+            .limit(pageSize)
+            .sort({ [sortBy]: sort(sortDirection)})
+            .toArray()
 
         return findBlogs.map(el => {
             return {
@@ -19,7 +42,7 @@ export const queryBlogsRepositories = {
 
     async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
 
-        const blog = await blogsCollection.findOne({id:  id});
+        const blog = await blogsCollection.findOne({id: id});
 
         if (blog) {
             return {

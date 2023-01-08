@@ -11,7 +11,7 @@ import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
 export const postsRouter = Router()
 
-postsRouter.get('/', async (req: Request, res: Response<PostsOutputType[]>) => {
+postsRouter.get('/', async (req: Request  , res: Response<PostsOutputType[]>) => {
 
     const findPosts = await queryPostsRepositories.getPost()
 
