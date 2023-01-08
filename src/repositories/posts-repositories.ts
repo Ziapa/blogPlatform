@@ -13,7 +13,7 @@ export const postsRepositories = {
                 title: newPost.title,
                 shortDescription: newPost.shortDescription,
                 content: newPost.content,
-                createAt: newPost.createdAt,
+                createdAt: newPost.createdAt,
                 blogId: newPost.blogId,
                 blogName: newPost.blogName
             }

@@ -14,7 +14,7 @@ export type PostsOutputType = {
     id: string
     title: string
     shortDescription: string
-    createAt: string
+    createdAt: string
     content: string
     blogId: string
     blogName: string
