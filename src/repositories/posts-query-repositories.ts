@@ -11,7 +11,7 @@ export const queryPostsRepositories = {
                 id: el.id,
                 title: el.title,
                 shortDescription: el.shortDescription,
-                createAt: el.createdAt,
+                createdAt: el.createdAt,
                 content: el.content,
                 blogId: el.blogId,
                 blogName: el.blogName
@@ -28,7 +28,7 @@ export const queryPostsRepositories = {
                 id: findPost.id,
                 title: findPost.title,
                 shortDescription: findPost.shortDescription,
-                createAt: findPost.createdAt,
+                createdAt: findPost.createdAt,
                 content: findPost.content,
                 blogId: findPost.blogId,
                 blogName: findPost.blogName
@@ -47,7 +47,7 @@ export const queryPostsRepositories = {
                     id: el.id,
                     title: el.title,
                     shortDescription: el.shortDescription,
-                    createAt: el.createdAt,
+                    createdAt: el.createdAt,
                     content: el.content,
                     blogId: el.blogId,
                     blogName: el.blogName

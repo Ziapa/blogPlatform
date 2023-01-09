@@ -29,15 +29,37 @@ const skipped = (pageNumber: number, pageSize: number) => {
             .sort({ [sortBy]: sort(sortDirection)})
             .toArray()
 
-        return findBlogs.map(el => {
-            return {
-                id: el.id,
-                name: el.name,
-                description: el.description,
-                websiteUrl: el.websiteUrl,
-                createdAt: el.createdAt
-            }
-        })
+        return  findBlogs.map(el => {
+                    return {
+                        id: el.id,
+                        name: el.name,
+                        description: el.description,
+                        websiteUrl: el.websiteUrl,
+                        createdAt: el.createdAt
+                    }})
+
+        //TODO
+// const count = await blogsCollection.countDocuments()
+// const pageCount = Math.ceil(count / pageSize)
+//
+//         return {
+//             // @ts-ignore
+//               pagesCount: pageCount,
+//               page: pageNumber,
+//               pageSize: pageSize,
+//               totalCount: count,
+//             items: [
+//                 findBlogs.map(el => {
+//                     return {
+//                         id: el.id,
+//                         name: el.name,
+//                         description: el.description,
+//                         websiteUrl: el.websiteUrl,
+//                         createdAt: el.createdAt
+//                     }
+//                 })
+//               ]
+//             }
     },
 
     async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
