@@ -4,29 +4,22 @@ import {blogsCollection} from "./db";
 export const queryBlogsRepositories = {
     async getBlogs(
         searchNameTerm: string | null,
-        sortDirection: "ask" | "desk",
+        sortDirection: "asc" | "desc",
         pageNumber: number,
         pageSize: number,
         sortBy: string,
     ): Promise<BlogsOutputType[]> {
 
-const sort = (sortDirection: "ask" | "desk") => {
-    if (sortDirection === "ask") {
-        return -1
-    } else {
-        return 1
-    }
-}
 
 const skipped = (pageNumber: number, pageSize: number) => {
     return (pageNumber - 1) * pageSize
 }
 
         const findBlogs = await blogsCollection
-            .find({name: {$regex: searchNameTerm ? searchNameTerm : ''}})
+            .find({name: {$regex: searchNameTerm ? searchNameTerm :""}})
             .skip(skipped(pageNumber,pageSize))
             .limit(pageSize)
-            .sort({ [sortBy]: sort(sortDirection)})
+            .sort({ [sortBy]: sortDirection})
             .toArray()
 
 const count = await blogsCollection.countDocuments()

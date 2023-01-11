@@ -16,7 +16,7 @@ import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
 type queryRequest = {
     searchNameTerm: string | null
-    sortDirection: "ask" | "desk"
+    sortDirection: "asc" | "desc"
     pageNumber: number
     pageSize: number
     sortBy: string
@@ -26,12 +26,14 @@ type queryRequest = {
 export const blogsRouter = Router()
 
 blogsRouter.get('/', async (req: RequestWithQuery<queryRequest>, res: Response<BlogsOutputType[]>) => {
-
+    console.log(req.query.sortDirection)
     const pageSize = +req.query.pageSize || 10
     const pageNumber = +req.query.pageNumber || 1
-    const sortDirection = req.query.sortDirection || "desk"
+    const sortDirection = req.query.sortDirection === "asc" ? "asc" : "desc"
     const searchNameTerm = req.query.searchNameTerm || null
     const sortBy = req.query.sortBy || "createdAt"
+    console.log(sortDirection)
+
 
     const findBlogs = await queryBlogsRepositories.getBlogs(searchNameTerm, sortDirection,
         pageNumber, pageSize, sortBy)
