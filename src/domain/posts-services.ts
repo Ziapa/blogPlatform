@@ -22,7 +22,7 @@ export const postsServices = {
             content: body.content,
             blogId: blog.id,
             blogName: blog.name,
-            createdAt: new Date().toString()
+            createdAt: new Date().toDateString()
         }
 
         return postsRepositories.createPost(newPost)
