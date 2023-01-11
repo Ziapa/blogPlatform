@@ -22,7 +22,10 @@ const startApp = async () => {
     await runDb()
 
     app.listen(PORT, () => {
-
+        console.log(new Date())
+        console.log(new Date().toString())
+        console.log(new Date().toDateString())
+        console.log(new Date().toISOString())
     })
 }
 startApp()

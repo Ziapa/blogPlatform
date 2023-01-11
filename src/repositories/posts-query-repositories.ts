@@ -1,5 +1,5 @@
 import {PostsOutputType} from "../types/postsTypes";
-import {postsCollection} from "./db";
+import { postsCollection} from "./db";
 
 export const queryPostsRepositories = {
     async getPost(): Promise<PostsOutputType[]> {
@@ -39,23 +39,21 @@ export const queryPostsRepositories = {
     },
     // TODO
 
-    async filterPostsByUserId(id: string): Promise<PostsOutputType[] | null> {
+    async filterPostsByBlogId(id: string): Promise<PostsOutputType[] | null> {
         const posts = await postsCollection.find({blogId: id}).toArray()
-        if (posts) {
-            return posts.map(el => {
-                return {
-                    id: el.id,
-                    title: el.title,
-                    shortDescription: el.shortDescription,
-                    createdAt: el.createdAt,
-                    content: el.content,
-                    blogId: el.blogId,
-                    blogName: el.blogName
-                }
-            })
-        } else {
-            return null
-        }
+        if (posts.length === 0) return null
+        return posts.map(el => {
+            return {
+                id: el.id,
+                title: el.title,
+                shortDescription: el.shortDescription,
+                createdAt: el.createdAt,
+                content: el.content,
+                blogId: el.blogId,
+                blogName: el.blogName
+            }
+        })
+
     },
 
 }

@@ -27,14 +27,14 @@ export const blogsRouter = Router()
 
 blogsRouter.get('/', async (req: RequestWithQuery<queryRequest>, res: Response<BlogsOutputType[]>) => {
 
-    const pageSize = +req.query.pageSize  || 10
+    const pageSize = +req.query.pageSize || 10
     const pageNumber = +req.query.pageNumber || 1
     const sortDirection = req.query.sortDirection || "desk"
     const searchNameTerm = req.query.searchNameTerm || null
     const sortBy = req.query.sortBy || "createdAt"
 
-    const findBlogs = await queryBlogsRepositories.getBlogs(searchNameTerm,sortDirection,
-        pageNumber,pageSize, sortBy)
+    const findBlogs = await queryBlogsRepositories.getBlogs(searchNameTerm, sortDirection,
+        pageNumber, pageSize, sortBy)
 
     if (findBlogs) {
         res.status(200).send(findBlogs)
@@ -113,9 +113,9 @@ blogsRouter.post('/:id/posts',
 )
 blogsRouter.get('/:id/posts',
     async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
-        const findPostsByUserId = await queryPostsRepositories.filterPostsByUserId(req.params.id)
-        if (findPostsByUserId) {
-            res.status(200).send(findPostsByUserId)
+        const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id)
+        if (findPostsByBlogId) {
+            res.status(200).send(findPostsByBlogId)
         } else {
             res.sendStatus(404)
         }
