@@ -14,8 +14,6 @@ import {postsServices} from "../domain/posts-services";
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
-// searchNameTerm=3123&sortBy=createdAt&sortDirection=asc&pageNumber=1&pageSize=10
-
 type queryRequest = {
     searchNameTerm: string | null
     sortDirection: "ask" | "desk"
