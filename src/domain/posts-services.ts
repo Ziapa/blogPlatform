@@ -1,4 +1,4 @@
-import {CreatePostOutputType} from "../types/postsTypes"
+import {PostsOutputType} from "../types/postsTypes"
 import { v4 as uuidV4 } from 'uuid'
 import {postsRepositories} from "../repositories/posts-repositories";
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
@@ -6,7 +6,7 @@ import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 export const postsServices = {
 
 
-    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<CreatePostOutputType | null> {
+    async createPost(body: { title: string, shortDescription: string, content: string, blogId?: string }, id?: string): Promise<PostsOutputType | null> {
 
         // TODO
 
@@ -22,16 +22,10 @@ export const postsServices = {
             content: body.content,
             blogId: blog.id,
             blogName: blog.name,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toString()
         }
 
-        await postsRepositories.createPost(newPost)
-
-        return {
-            title: body.title,
-            shortDescription: body.shortDescription,
-            content: body.content
-        }
+        return postsRepositories.createPost(newPost)
     },
 
     async updatePost(id: string, body: {

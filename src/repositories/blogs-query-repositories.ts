@@ -12,9 +12,9 @@ export const queryBlogsRepositories = {
 
 const sort = (sortDirection: "ask" | "desk") => {
     if (sortDirection === "ask") {
-        return 1
-    } else {
         return -1
+    } else {
+        return 1
     }
 }
 
