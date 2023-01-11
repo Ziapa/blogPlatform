@@ -101,7 +101,9 @@ blogsRouter.delete('/:id',
 
 // TODO
 blogsRouter.post('/:id/posts',
+
     basicAuthorization,
+
     createPostByUserIdValidation,
     async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
         const newPost = await postsServices.createPost(req.body, req.params.id)

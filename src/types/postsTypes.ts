@@ -19,3 +19,9 @@ export type PostsOutputType = {
     blogId: string
     blogName: string
 }
+
+export type CreatePostOutputType = {
+    title: string
+    shortDescription: string
+    content: string
+}
