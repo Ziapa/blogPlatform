@@ -10,27 +10,26 @@ export const queryBlogsRepositories = {
         sortBy: string,
     ): Promise<BlogsOutputType[]> {
 
+        const filter = {name: {$regex: searchNameTerm ?? "", $options: "i"}}
 
-const skipped = (pageNumber: number, pageSize: number) => {
-    return (pageNumber - 1) * pageSize
-}
+        const skipped = (pageNumber - 1) * pageSize
 
         const findBlogs = await blogsCollection
-            .find({name: {$regex: searchNameTerm ? searchNameTerm :""}})
-            .skip(skipped(pageNumber,pageSize))
+            .find(filter)
+            .skip(skipped)
             .limit(pageSize)
-            .sort({ [sortBy]: sortDirection})
+            .sort({[sortBy]: sortDirection})
             .toArray()
 
-const count = await blogsCollection.countDocuments()
-const pageCount = Math.ceil(count / pageSize)
+        const count = await blogsCollection.countDocuments(filter)
+        const pageCount = Math.ceil(count / pageSize)
 
         return {
             // @ts-ignore
-              pagesCount: pageCount,
-              page: pageNumber,
-              pageSize: pageSize,
-              totalCount: count,
+            pagesCount: pageCount,
+            page: pageNumber,
+            pageSize: pageSize,
+            totalCount: count,
             items: [
                 findBlogs.map(el => {
                     return {
@@ -41,8 +40,8 @@ const pageCount = Math.ceil(count / pageSize)
                         createdAt: el.createdAt
                     }
                 })
-              ]
-            }
+            ]
+        }
     },
 
     async findBlog(id: string | undefined): Promise<BlogsOutputType | null> {
