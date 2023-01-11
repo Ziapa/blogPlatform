@@ -30,7 +30,8 @@ export const createBlogValidation = [
 export const createPostByUserIdValidation = [
     titleValidation,
     shortDescriptionValidation,
-    contentValidation
+    contentValidation,
+    inputValidationMiddleware
 ]
 
 export const updateBlogValidation = [

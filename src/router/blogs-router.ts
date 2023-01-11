@@ -99,16 +99,15 @@ blogsRouter.delete('/:id',
 
 // TODO
 blogsRouter.post('/:id/posts',
-
     basicAuthorization,
-
     createPostByUserIdValidation,
     async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
+        console.log('ya tut')
         const newPost = await postsServices.createPost(req.body, req.params.id)
         if (newPost) {
             res.status(201).send(newPost)
         } else {
-            res.sendStatus(401)
+            res.sendStatus(404)
         }
     }
 )

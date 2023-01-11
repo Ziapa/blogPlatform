@@ -15,6 +15,7 @@ export const postsServices = {
         const blog = await queryBlogsRepositories.findBlog(findBlogId)
 
         if (!blog) return null
+
         const newPost = {
             id: uuidV4(),
             title: body.title,
@@ -24,7 +25,7 @@ export const postsServices = {
             blogName: blog.name,
             createdAt: new Date().toISOString()
         }
-
+        console.log(new Date().toISOString())
         return postsRepositories.createPost(newPost)
     },
 
