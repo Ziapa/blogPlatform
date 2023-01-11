@@ -30,8 +30,7 @@ export const queryBlogsRepositories = {
             page: pageNumber,
             pageSize: pageSize,
             totalCount: count,
-            items: [
-                findBlogs.map(el => {
+            items: findBlogs.map(el => {
                     return {
                         id: el.id,
                         name: el.name,
@@ -40,7 +39,7 @@ export const queryBlogsRepositories = {
                         createdAt: el.createdAt
                     }
                 })
-            ]
+
         }
     },
 
