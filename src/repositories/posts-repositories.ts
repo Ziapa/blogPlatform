@@ -26,17 +26,15 @@ export const postsRepositories = {
     async updatePost(id: string, body: {
         title: string, shortDescription: string, content: string, blogId: string
     }): Promise<Boolean> {
-
-        const result =
-            await postsCollection.updateOne({id: id},
-                {
-                    title: body.title,
-                    shortDescription: body.shortDescription,
-                    content: body.content,
-                    blogId: body.blogId,
+            const result = await postsCollection.updateOne({id: id},
+                {$set: {
+                        title: body.title,
+                        shortDescription: body.shortDescription,
+                        content: body.content,
+                        blogId: body.blogId,
+                    }
                 })
-
-        return result.matchedCount === 1
+            return result.matchedCount === 1
     },
 
     async deletePost(id: string): Promise<Boolean | undefined> {

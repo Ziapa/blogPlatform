@@ -12,19 +12,12 @@ import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 export const postsRouter = Router()
 
 postsRouter.get('/', async (req: Request  , res: Response<PostsOutputType[]>) => {
-
     const findPosts = await queryPostsRepositories.getPost()
+    res.status(200).send(findPosts)
 
-    if (findPosts) {
-        res.status(200).send(findPosts)
-    } else {
-        res.sendStatus(400)
-    }
 })
 postsRouter.get('/:id', async (req: Request, res: Response<PostsOutputType>) => {
     const findPost = await queryPostsRepositories.findPost(req.params.id)
-
-
     if (findPost) {
         res.status(200).send(findPost)
     } else {
