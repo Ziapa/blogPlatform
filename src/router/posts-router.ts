@@ -11,12 +11,12 @@ import {queryPostsRepositories} from "../repositories/posts-query-repositories";
 
 export const postsRouter = Router()
 
-postsRouter.get('/', async (req: Request  , res: Response<PostsOutputType[]>) => {
+postsRouter.get("/", async (req: Request  , res: Response<PostsOutputType[]>) => {
     const findPosts = await queryPostsRepositories.getPost()
     res.status(200).send(findPosts)
 
 })
-postsRouter.get('/:id', async (req: Request, res: Response<PostsOutputType>) => {
+postsRouter.get("/:id", async (req: Request, res: Response<PostsOutputType>) => {
     const findPost = await queryPostsRepositories.findPost(req.params.id)
     if (findPost) {
         res.status(200).send(findPost)
@@ -25,7 +25,7 @@ postsRouter.get('/:id', async (req: Request, res: Response<PostsOutputType>) => 
     }
 })
 
-postsRouter.post('/',
+postsRouter.post("/",
 
     basicAuthorization,
 
@@ -40,7 +40,7 @@ postsRouter.post('/',
         }
     })
 
-postsRouter.put('/:id',
+postsRouter.put("/:id",
 
     basicAuthorization,
 
@@ -55,7 +55,7 @@ postsRouter.put('/:id',
         }
 
     })
-postsRouter.delete('/:id',
+postsRouter.delete("/:id",
 
     basicAuthorization,
 

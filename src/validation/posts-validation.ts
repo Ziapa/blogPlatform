@@ -21,8 +21,8 @@ export const contentValidation = body('content')
 export const blogIdValidation = body('blogId')
     .isString()
     .trim().notEmpty()
-    .custom(value => {
-        const blog = queryBlogsRepositories.findBlog(value)
+    .custom(async value => {
+        const blog = await queryBlogsRepositories.findBlog(value)
         if (!blog) throw new Error()
         return true
     })
