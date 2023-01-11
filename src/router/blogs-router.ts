@@ -1,6 +1,12 @@
 import {Request, Response, Router} from "express";
 import {BlogsOutputType} from "../types/blogsTypes";
-import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../types/types";
+import {
+    QueryRequest,
+    RequestWithBody,
+    RequestWithParams,
+    RequestWithParamsAndBody,
+    RequestWithQuery
+} from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
@@ -13,30 +19,14 @@ import {blogsServices} from "../domain/blogs-services";
 import {postsServices} from "../domain/posts-services";
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 import {queryPostsRepositories} from "../repositories/posts-query-repositories";
-
-type queryRequest = {
-    searchNameTerm: string | null
-    sortDirection: "asc" | "desc"
-    pageNumber: number
-    pageSize: number
-    sortBy: string
-}
-
+import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', async (req: RequestWithQuery<queryRequest>, res: Response<BlogsOutputType[]>) => {
-    console.log(req.query.sortDirection)
-    const pageSize = +req.query.pageSize || 10
-    const pageNumber = +req.query.pageNumber || 1
-    const sortDirection = req.query.sortDirection === "asc" ? "asc" : "desc"
-    const searchNameTerm = req.query.searchNameTerm || null
-    const sortBy = req.query.sortBy || "createdAt"
-    console.log(sortDirection)
+blogsRouter.get('/', async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<BlogsOutputType[]>>) => {
+    const pagination = paginationQuery(req.query)
 
-
-    const findBlogs = await queryBlogsRepositories.getBlogs(searchNameTerm, sortDirection,
-        pageNumber, pageSize, sortBy)
+    const findBlogs = await queryBlogsRepositories.getBlogs(pagination)
 
     if (findBlogs) {
         res.status(200).send(findBlogs)

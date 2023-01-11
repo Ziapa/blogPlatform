@@ -3,16 +3,27 @@ import {basicAuthorization} from "../middlewares/authorization-middleware";
 import {createPostValidation, updatePostValidation} from "../validation/posts-validation";
 import {PostsOutputType} from "../types/postsTypes";
 import {CreatePostModelType} from "../model/postsModel/createPostModel";
-import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from "../types/types";
+import {
+    QueryRequest,
+    RequestWithBody,
+    RequestWithParams,
+    RequestWithParamsAndBody,
+    RequestWithQuery
+} from "../types/types";
 import {QueryPostModelType} from "../model/postsModel/queryPostModel";
 import {postsServices} from "../domain/posts-services";
 import {queryPostsRepositories} from "../repositories/posts-query-repositories";
+import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 
 
 export const postsRouter = Router()
 
-postsRouter.get("/", async (req: Request  , res: Response<PostsOutputType[]>) => {
-    const findPosts = await queryPostsRepositories.getPost()
+postsRouter.get("/", async (req: RequestWithQuery<QueryRequest>  , res: Response<PaginationViewModel<PostsOutputType[]>>) => {
+
+    const pagination = paginationQuery(req.query)
+
+    const findPosts = await queryPostsRepositories.getPost(pagination)
+
     res.status(200).send(findPosts)
 
 })
