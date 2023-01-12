@@ -9,6 +9,7 @@ export const client = new MongoClient(mongoUri)
 const db = client.db("blog-platform")
 export const blogsCollection = db.collection<BlogsDbType>("blogs")
 export const postsCollection = db.collection<PostsDbType>("posts")
+export const usersCollection = db.collection<PostsDbType>("users")
 
 export async function runDb() {
     try {

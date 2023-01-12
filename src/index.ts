@@ -3,6 +3,7 @@ import {testingRouter} from "./router/testing-router";
 import {postsRouter} from "./router/posts-router";
 import {blogsRouter} from "./router/blogs-router";
 import {runDb} from "./repositories/db";
+import {usersRouter} from "./router/users-router";
 
 export const app = express()
 const PORT = 3003
@@ -16,6 +17,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/blogs", blogsRouter)
 app.use("/posts", postsRouter)
 app.use("/testing", testingRouter)
+app.use("/users", usersRouter)
 
 const startApp = async () => {
 
