@@ -1,5 +1,5 @@
 import {PostsOutputType} from "../types/postsTypes"
-import { v4 as uuidV4 } from 'uuid'
+import { v4 as uuidV4 } from "uuid"
 import {postsRepositories} from "../repositories/posts-repositories";
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 

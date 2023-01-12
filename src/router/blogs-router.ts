@@ -23,7 +23,7 @@ import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/', async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<BlogsOutputType[]>>) => {
+blogsRouter.get("/", async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<BlogsOutputType[]>>) => {
     const pagination = paginationQuery(req.query)
 
     const findBlogs = await queryBlogsRepositories.getBlogs(pagination)
@@ -35,7 +35,7 @@ blogsRouter.get('/', async (req: RequestWithQuery<QueryRequest>, res: Response<P
     }
 
 })
-blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsOutputType>) => {
+blogsRouter.get("/:id", async (req: RequestWithParams<QueryBlogsModelType>, res: Response<BlogsOutputType>) => {
 
     const findBlog = await queryBlogsRepositories.findBlog(req.params.id)
 
@@ -48,7 +48,7 @@ blogsRouter.get('/:id', async (req: RequestWithParams<QueryBlogsModelType>, res:
 
 })
 
-blogsRouter.post('/',
+blogsRouter.post("/",
 
     basicAuthorization,
 
@@ -63,7 +63,7 @@ blogsRouter.post('/',
             res.sendStatus(401)
         }
     })
-blogsRouter.put('/:id',
+blogsRouter.put("/:id",
 
     basicAuthorization,
 
@@ -77,7 +77,7 @@ blogsRouter.put('/:id',
             res.sendStatus(404)
         }
     })
-blogsRouter.delete('/:id',
+blogsRouter.delete("/:id",
 
     basicAuthorization,
 
@@ -90,11 +90,11 @@ blogsRouter.delete('/:id',
     })
 
 // TODO
-blogsRouter.post('/:id/posts',
+blogsRouter.post("/:id/posts",
     basicAuthorization,
     createPostByUserIdValidation,
     async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
-        console.log('ya tut')
+        console.log("ya tut")
         const newPost = await postsServices.createPost(req.body, req.params.id)
         if (newPost) {
             res.status(201).send(newPost)
@@ -103,7 +103,7 @@ blogsRouter.post('/:id/posts',
         }
     }
 )
-blogsRouter.get('/:id/posts',
+blogsRouter.get("/:id/posts",
     async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
         const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id)
         if (findPostsByBlogId) {

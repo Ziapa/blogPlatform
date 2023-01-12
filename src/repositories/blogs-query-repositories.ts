@@ -1,7 +1,7 @@
 import {BlogsDbType, BlogsOutputType} from "../types/blogsTypes";
 import {blogsCollection} from "./db";
-import {queryRequest} from "../router/blogs-router";
 import { PaginationViewModel} from "../helpers/pagination";
+import {QueryRequest} from "../types/types";
 
 export const queryBlogsRepositories = {
 
@@ -16,7 +16,7 @@ export const queryBlogsRepositories = {
     },
 
     async getBlogs(
-        pagination: queryRequest
+        pagination: QueryRequest
     ): Promise<PaginationViewModel<BlogsOutputType[]>> {
 
         const filter = {name: {$regex: pagination.searchNameTerm ?? "", $options: "i"}}

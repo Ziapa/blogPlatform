@@ -3,22 +3,22 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
 
 
-export const titleValidation = body('title')
+export const titleValidation = body("title")
     .isString()
     .trim().notEmpty()
     .isLength({max: 30})
 
-export const shortDescriptionValidation = body('shortDescription')
+export const shortDescriptionValidation = body("shortDescription")
     .isString()
     .trim().notEmpty()
     .isLength({max: 100})
 
-export const contentValidation = body('content')
+export const contentValidation = body("content")
     .isString()
     .trim().notEmpty()
     .isLength({max: 1000})
 
-export const blogIdValidation = body('blogId')
+export const blogIdValidation = body("blogId")
     .isString()
     .trim().notEmpty()
     .custom(async value => {
