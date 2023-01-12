@@ -94,7 +94,6 @@ blogsRouter.post("/:id/posts",
     basicAuthorization,
     createPostByUserIdValidation,
     async (req: RequestWithParamsAndBody<QueryPostModelType, CreateBlogByUserIdType>, res: Response) => {
-        console.log("ya tut")
         const newPost = await postsServices.createPost(req.body, req.params.id)
         if (newPost) {
             res.status(201).send(newPost)
@@ -105,7 +104,10 @@ blogsRouter.post("/:id/posts",
 )
 blogsRouter.get("/:id/posts",
     async (req: RequestWithParamsAndQuery<QueryPostModelType, QueryRequest>, res: Response) => {
-        const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id, req.query)
+
+        const pagination = paginationQuery(req.query)
+
+        const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id, pagination)
         if (findPostsByBlogId) {
             res.status(200).send(findPostsByBlogId)
         } else {

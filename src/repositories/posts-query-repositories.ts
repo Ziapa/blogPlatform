@@ -20,7 +20,6 @@ export const queryPostsRepositories = {
     async getPost(pagination: QueryRequest): Promise<PaginationViewModel<PostsOutputType[]>> {
 
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
-
         const findPosts = await postsCollection
             .find({})
             .skip(skipped)
