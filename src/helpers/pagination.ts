@@ -1,6 +1,6 @@
-import {queryRequest} from "../router/blogs-router";
+import {QueryRequest} from "../types/types";
 
-export const paginationQuery = (body: queryRequest): queryRequest => {
+export const paginationQuery = (body: QueryRequest): QueryRequest => {
     return {
         pageSize: +body.pageSize || 10,
         pageNumber: +body.pageNumber || 1,

@@ -4,7 +4,7 @@ import {
     QueryRequest,
     RequestWithBody,
     RequestWithParams,
-    RequestWithParamsAndBody,
+    RequestWithParamsAndBody, RequestWithParamsAndQuery,
     RequestWithQuery
 } from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
@@ -104,8 +104,8 @@ blogsRouter.post("/:id/posts",
     }
 )
 blogsRouter.get("/:id/posts",
-    async (req: RequestWithParams<QueryPostModelType>, res: Response) => {
-        const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id)
+    async (req: RequestWithParamsAndQuery<QueryPostModelType, QueryRequest>, res: Response) => {
+        const findPostsByBlogId = await queryPostsRepositories.filterPostsByBlogId(req.params.id, req.query)
         if (findPostsByBlogId) {
             res.status(200).send(findPostsByBlogId)
         } else {

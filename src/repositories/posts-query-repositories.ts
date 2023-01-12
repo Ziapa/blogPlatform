@@ -5,7 +5,7 @@ import {QueryRequest} from "../types/types";
 
 export const queryPostsRepositories = {
 
-    mapPostToViewType (post: PostsDbType): PostsOutputType {
+    mapPostToViewType(post: PostsDbType): PostsOutputType {
         return {
             id: post.id,
             title: post.title,
@@ -17,7 +17,7 @@ export const queryPostsRepositories = {
         }
     },
 
-async getPost(pagination: QueryRequest): Promise<PaginationViewModel<PostsOutputType[]>> {
+    async getPost(pagination: QueryRequest): Promise<PaginationViewModel<PostsOutputType[]>> {
 
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
@@ -31,7 +31,7 @@ async getPost(pagination: QueryRequest): Promise<PaginationViewModel<PostsOutput
         const count = await blogsCollection.countDocuments({})
         const items: PostsOutputType[] = findPosts.map(el => this.mapPostToViewType(el))
 
-        return new PaginationViewModel(count,pagination.pageSize, pagination.pageNumber, items)
+        return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
     },
 
     async findPost(id: string): Promise<PostsOutputType | null> {
@@ -46,12 +46,23 @@ async getPost(pagination: QueryRequest): Promise<PaginationViewModel<PostsOutput
     },
     // TODO
 
-    async filterPostsByBlogId(id: string): Promise<PostsOutputType[] | null> {
-        const posts = await postsCollection.find({blogId: id}).toArray()
-        if (posts.length === 0) return null
-        return posts.map(el => {
-            return this.mapPostToViewType(el)
-        })
+    async filterPostsByBlogId(id: string, pagination: QueryRequest): Promise<PaginationViewModel<PostsOutputType[]> | null> {
+
+        const skipped = (pagination.pageNumber - 1) * pagination.pageSize
+
+        const findPosts = await postsCollection
+            .find({blogId: id})
+            .skip(skipped)
+            .limit(pagination.pageSize)
+            .sort({[pagination.sortBy]: pagination.sortDirection})
+            .toArray()
+
+        if (findPosts.length === 0) return null
+
+        const count = await postsCollection.countDocuments({blogId: id})
+        const items: PostsOutputType[] = findPosts.map(el => this.mapPostToViewType(el))
+
+        return  new PaginationViewModel(count,pagination.pageSize,pagination.pageNumber, items)
 
     },
 
