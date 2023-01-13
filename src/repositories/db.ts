@@ -1,6 +1,7 @@
 import {MongoClient} from "mongodb"
 import {BlogsDbType} from "../types/blogsTypes";
 import {PostsDbType} from "../types/postsTypes";
+import {UsersDbType} from "../types/usersType";
 
 const mongoUri = "mongodb+srv://Ziapa:Ziapa@samuraidb.bhiinll.mongodb.net/?retryWrites=true&w=majority"
 
@@ -9,7 +10,7 @@ export const client = new MongoClient(mongoUri)
 const db = client.db("blog-platform")
 export const blogsCollection = db.collection<BlogsDbType>("blogs")
 export const postsCollection = db.collection<PostsDbType>("posts")
-export const usersCollection = db.collection<PostsDbType>("users")
+export const usersCollection = db.collection<UsersDbType>("users")
 
 export async function runDb() {
     try {

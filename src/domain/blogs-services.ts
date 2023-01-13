@@ -1,6 +1,6 @@
 import {BlogsOutputType} from "../types/blogsTypes";
 import { v4 as uuidV4 } from "uuid"
-import {blogsRepositories} from "../repositories/blogs-repositories";
+import {blogsRepositories} from "../repositories/blogs/blogs-repositories";
 
 export const blogsServices = {
 

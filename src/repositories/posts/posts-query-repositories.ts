@@ -1,7 +1,7 @@
-import {PostsDbType, PostsOutputType} from "../types/postsTypes";
-import {blogsCollection, postsCollection} from "./db";
-import {PaginationViewModel} from "../helpers/pagination";
-import {QueryRequest} from "../types/types";
+import {PostsDbType, PostsOutputType} from "../../types/postsTypes";
+import {blogsCollection, postsCollection} from "../db";
+import {PaginationViewModel} from "../../helpers/pagination";
+import {QueryRequest} from "../../types/types";
 
 export const queryPostsRepositories = {
 

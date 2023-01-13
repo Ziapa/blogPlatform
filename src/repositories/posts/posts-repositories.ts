@@ -1,5 +1,5 @@
-import {PostsDbType, PostsOutputType} from "../types/postsTypes"
-import {postsCollection} from "./db";
+import {PostsDbType, PostsOutputType} from "../../types/postsTypes"
+import {postsCollection} from "../db";
 
 export const postsRepositories = {
 

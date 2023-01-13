@@ -1,7 +1,7 @@
 import {PostsOutputType} from "../types/postsTypes"
 import { v4 as uuidV4 } from "uuid"
-import {postsRepositories} from "../repositories/posts-repositories";
-import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
+import {postsRepositories} from "../repositories/posts/posts-repositories";
+import {queryBlogsRepositories} from "../repositories/blogs/blogs-query-repositories";
 
 export const postsServices = {
 
@@ -25,7 +25,6 @@ export const postsServices = {
             blogName: blog.name,
             createdAt: new Date().toISOString()
         }
-        console.log(new Date().toISOString())
         return postsRepositories.createPost(newPost)
     },
 

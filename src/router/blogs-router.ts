@@ -17,8 +17,8 @@ import {
 } from "../model/postsModel/createPostModel";
 import {blogsServices} from "../domain/blogs-services";
 import {postsServices} from "../domain/posts-services";
-import {queryBlogsRepositories} from "../repositories/blogs-query-repositories";
-import {queryPostsRepositories} from "../repositories/posts-query-repositories";
+import {queryBlogsRepositories} from "../repositories/blogs/blogs-query-repositories";
+import {queryPostsRepositories} from "../repositories/posts/posts-query-repositories";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 
 export const blogsRouter = Router()
