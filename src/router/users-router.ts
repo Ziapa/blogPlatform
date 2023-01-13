@@ -1,8 +1,8 @@
-import { Router} from "express";
+import {Response, Router} from "express";
 import { queryUsersRepositories } from "../repositories/users/users-query-repositories";
 import {usersServices} from "../domain/users-sevices";
 import {RequestWithBody} from "../types/types";
-import {UsersDbType} from "../types/usersType";
+import {UsersDbType, UsersOutputType} from "../types/usersType";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
 
 export const usersRouter = Router()
@@ -11,7 +11,7 @@ usersRouter.get("/",
 
     basicAuthorization,
 
-    async (req, res ) => {
+    async (req, res: Response<UsersOutputType[]> ) => {
     const findUsers = await queryUsersRepositories.getUsers()
         console.log(findUsers)
     res.status(200).send(findUsers)
