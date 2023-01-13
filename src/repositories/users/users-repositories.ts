@@ -8,6 +8,7 @@ export const  usersRepositories = {
 
         if (result.acknowledged) {
             return {
+                id: newUser.id,
                 login: newUser.login,
                 email: newUser.email,
                 password: newUser.password,
