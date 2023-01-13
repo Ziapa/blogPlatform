@@ -15,8 +15,14 @@ export const  queryUsersRepositories = {
    async getUsers () {
 
        const users = await usersCollection.find({}).toArray()
-
-       return users.map(el => {this.mapUserToViewType(el)})
-
+       // return users.map(el => {this.mapUserToViewType(el)})
+return users.map(el => {
+    return {
+        id: el.id,
+        login: el.login,
+        email: el.email,
+        createdAt: el.createdAt
+    }
+})
    }
 }

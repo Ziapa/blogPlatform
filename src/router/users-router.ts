@@ -13,7 +13,7 @@ usersRouter.get("/",
 
     async (req, res ) => {
     const findUsers = await queryUsersRepositories.getUsers()
-
+        console.log(findUsers)
     res.status(200).send(findUsers)
 
 })
