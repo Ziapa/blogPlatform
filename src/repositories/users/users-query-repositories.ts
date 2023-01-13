@@ -8,7 +8,6 @@ export const  queryUsersRepositories = {
             id: user.id,
             login: user.login,
             email: user.email,
-            password: user.password,
             createdAt: user.createdAt
         }
     },

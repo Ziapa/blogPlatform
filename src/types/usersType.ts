@@ -9,7 +9,6 @@ export type UsersDbType = {
 export type UsersOutputType = {
     id: string
     login: string
-    password: string
     email:string
     createdAt: string
 }
