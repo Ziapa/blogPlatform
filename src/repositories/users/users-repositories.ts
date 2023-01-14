@@ -17,5 +17,12 @@ export const  usersRepositories = {
         } else {
             return null
         }
+    },
+
+    async deleteUser (id: string) {
+
+        const result = await usersCollection.deleteOne({id: id})
+
+        return result.deletedCount === 1
     }
 }

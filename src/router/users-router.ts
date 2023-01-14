@@ -1,9 +1,10 @@
 import {Response, Router} from "express";
 import { queryUsersRepositories } from "../repositories/users/users-query-repositories";
 import {usersServices} from "../domain/users-sevices";
-import {RequestWithBody} from "../types/types";
+import {RequestWithBody, RequestWithParams} from "../types/types";
 import {UsersDbType, UsersOutputType} from "../types/usersType";
 import {basicAuthorization} from "../middlewares/authorization-middleware";
+import {QueryUsersModelType} from "../model/usersModel/queryUsersModel";
 
 export const usersRouter = Router()
 
@@ -14,7 +15,7 @@ usersRouter.get("/",
     async (req, res: Response<UsersOutputType[]> ) => {
     const findUsers = await queryUsersRepositories.getUsers()
         console.log(findUsers)
-    res.status(200).send(findUsers)
+    res.status(201).send(findUsers)
 
 })
 
@@ -32,3 +33,19 @@ usersRouter.post("/",
     }
 return res
 })
+
+usersRouter.delete("/:id",
+
+    basicAuthorization,
+
+    async (req:RequestWithParams<QueryUsersModelType>, res) => {
+
+    const result = await usersServices.deleteUser(req.params.id)
+
+        if (result) {
+            res.sendStatus(204)
+        } else  {
+            res.sendStatus(404)
+        }
+    }
+)

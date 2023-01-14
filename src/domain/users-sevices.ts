@@ -18,6 +18,10 @@ export const usersServices = {
 
          return await usersRepositories.createUser(newUser)
 
+    },
+
+    async deleteUser(id: string): Promise<boolean | undefined> {
+        return await usersRepositories.deleteUser(id)
     }
 
 }

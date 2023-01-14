@@ -20,8 +20,3 @@ export type PostsOutputType = {
     blogName: string
 }
 
-export type CreatePostOutputType = {
-    title: string
-    shortDescription: string
-    content: string
-}
