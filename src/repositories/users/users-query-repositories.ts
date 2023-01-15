@@ -1,28 +1,36 @@
 import {usersCollection} from "../db";
-import {UsersDbType, UsersOutputType} from "../../types/usersType";
+import {UsersOutputType} from "../../types/usersType";
+import {QueryRequest} from "../../types/types";
+import {PaginationViewModel} from "../../helpers/pagination";
 
-export const  queryUsersRepositories = {
+export const queryUsersRepositories = {
 
-    mapUserToViewType(user: UsersDbType): UsersOutputType {
-        return {
-            id: user.id,
-            login: user.login,
-            email: user.email,
-            createdAt: user.createdAt
+
+    async getUsers(pagination: QueryRequest): Promise<PaginationViewModel<UsersOutputType[]>> {
+
+        const filter = {
+            email: {$regex: pagination.searchEmailTerm ?? ""}
+            , login: {$regex: pagination.searchLoginTerm ?? ""}
+            , $options: "i"
         }
-    },
+        const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
-   async getUsers () {
+        const users = await usersCollection.find(filter)
+            .skip(skipped)
+            .limit(pagination.pageSize)
+            .sort({[pagination.sortBy]: pagination.sortDirection})
+            .toArray()
+        const count = await usersCollection.countDocuments(filter)
 
-       const users = await usersCollection.find({}).toArray()
-       // return users.map(el => {this.mapUserToViewType(el)})
-return users.map(el => {
-    return {
-        id: el.id,
-        login: el.login,
-        email: el.email,
-        createdAt: el.createdAt
+        const items: UsersOutputType[] = users.map(el => {
+            return {
+                id: el.id,
+                login: el.login,
+                email: el.email,
+                createdAt: el.createdAt
+            }
+        })
+
+        return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
     }
-})
-   }
 }

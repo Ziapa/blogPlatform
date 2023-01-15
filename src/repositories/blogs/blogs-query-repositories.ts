@@ -29,7 +29,7 @@ export const queryBlogsRepositories = {
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
         const count = await blogsCollection.countDocuments(filter)
-        const items: BlogsOutputType[] = findBlogs.map(e => this.mapBlogToViewType(e))
+        const items: BlogsOutputType[] = findBlogs.map(el => this.mapBlogToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
 

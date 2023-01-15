@@ -6,6 +6,8 @@ export const paginationQuery = (body: QueryRequest): QueryRequest => {
         pageNumber: +body.pageNumber || 1,
         sortDirection: body.sortDirection === "asc" ? "asc" : "desc",
         searchNameTerm: body.searchNameTerm || null,
+        searchLoginTerm: body.searchLoginTerm || null,
+        searchEmailTerm: body.searchEmailTerm || null,
         sortBy: body.sortBy || "createdAt"
     }
 }
