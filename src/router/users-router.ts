@@ -20,7 +20,7 @@ usersRouter.get("/",
 
         const findUsers = await queryUsersRepositories.getUsers(pagination)
 
-        res.status(201).send(findUsers)
+        res.status(200).send(findUsers)
 
     })
 
