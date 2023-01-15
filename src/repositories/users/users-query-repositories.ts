@@ -9,9 +9,10 @@ export const queryUsersRepositories = {
     async getUsers(pagination: QueryRequest): Promise<PaginationViewModel<UsersOutputType[]>> {
 
         const filter = {
-            email: {$regex: pagination.searchEmailTerm ?? ""}
-            , login: {$regex: pagination.searchLoginTerm ?? ""}
-            , $options: "i"
+                $or: [
+                    { email: {$regex: pagination.searchEmailTerm ?? ""}},
+                    {login: {$regex: pagination.searchLoginTerm ?? ""} }
+                ],
         }
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
