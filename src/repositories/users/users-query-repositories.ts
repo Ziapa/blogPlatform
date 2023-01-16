@@ -12,7 +12,7 @@ export const queryUsersRepositories = {
             $or: [
                 {email: {$regex: pagination.searchEmailTerm ?? ""}},
                 {login: {$regex: pagination.searchLoginTerm ?? ""}}
-            ]
+            ], $options: "i"
         }
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
