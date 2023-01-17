@@ -15,7 +15,7 @@ export const webSiteUrlValidation = body("email")
     .isString()
     .trim().notEmpty()
     .isURL()
-    .matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$\n")
+    .matches("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
     .isLength({max: 100})
 
 
