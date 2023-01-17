@@ -14,7 +14,6 @@ usersRouter.get("/",
 
     basicAuthorizationRequests,
 
-    createUserValidation,
 
 // TODO
     async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<UsersOutputType[]>>) => {
@@ -31,7 +30,9 @@ usersRouter.post("/",
 
     basicAuthorization,
 
-    async (req: RequestWithBody<UserRequest>, res) => {
+    createUserValidation,
+
+    async (req: RequestWithBody<UserRequest>, res: Response<UsersOutputType | null> ) => {
 
         const result = await usersServices.crateUser(req.body)
         if (result) {
