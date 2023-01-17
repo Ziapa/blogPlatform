@@ -18,5 +18,14 @@ export type QueryRequest = {
     sortBy: string
 }
 
+export type QueryRequestUser = {
+    searchLoginTerm: string | null,
+    searchEmailTerm: string | null,
+    sortDirection: "asc" | "desc"
+    pageNumber: number
+    pageSize: number
+    sortBy: string
+}
+
 
 

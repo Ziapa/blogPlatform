@@ -1,20 +1,23 @@
 import {Response, Router} from "express";
 import {queryUsersRepositories} from "../repositories/users/users-query-repositories";
 import {usersServices} from "../domain/users-sevices";
-import {RequestWithBody, RequestWithParams} from "../types/types";
+import {QueryRequest, RequestWithBody, RequestWithParams, RequestWithQuery} from "../types/types";
 import {UsersDbType, UsersOutputType} from "../types/usersType";
-import {basicAuthorization} from "../middlewares/authorization-middleware";
+import {basicAuthorization, basicAuthorizationRequests} from "../middlewares/authorization-middleware";
 import {QueryUsersModelType} from "../model/usersModel/queryUsersModel";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
+import {createUserValidation} from "../validation/users-validation";
 
 export const usersRouter = Router()
 
 usersRouter.get("/",
 
-    basicAuthorization,
+    basicAuthorizationRequests,
+
+    createUserValidation,
 
 // TODO
-    async (req: any, res: Response<PaginationViewModel<UsersOutputType[]>>) => {
+    async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<UsersOutputType[]>>) => {
 
         const pagination = paginationQuery(req.query)
 
