@@ -1,4 +1,5 @@
 import {body} from "express-validator";
+import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 
 export const loginValidation = body("login")
     .isString()
@@ -21,5 +22,6 @@ export const webSiteUrlValidation = body("email")
 export const createUserValidation = [
     loginValidation,
     passwordValidation,
-    webSiteUrlValidation
+    webSiteUrlValidation,
+    inputValidationMiddleware
 ]

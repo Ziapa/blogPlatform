@@ -2,7 +2,7 @@ import {Response, Router} from "express";
 import {queryUsersRepositories} from "../repositories/users/users-query-repositories";
 import {usersServices} from "../domain/users-sevices";
 import {QueryRequest, RequestWithBody, RequestWithParams, RequestWithQuery} from "../types/types";
-import {UsersDbType, UsersOutputType} from "../types/usersType";
+import {UserRequest, UsersOutputType} from "../types/usersType";
 import {basicAuthorization, basicAuthorizationRequests} from "../middlewares/authorization-middleware";
 import {QueryUsersModelType} from "../model/usersModel/queryUsersModel";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
@@ -31,7 +31,7 @@ usersRouter.post("/",
 
     basicAuthorization,
 
-    async (req: RequestWithBody<UsersDbType>, res) => {
+    async (req: RequestWithBody<UserRequest>, res) => {
 
         const result = await usersServices.crateUser(req.body)
         if (result) {
