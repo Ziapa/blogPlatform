@@ -4,6 +4,7 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 export const loginValidation = body("login")
     .isString()
     .trim().notEmpty()
+    .matches("^[a-zA-Z0-9_-]*$")
     .isLength({max: 10, min:3})
 
 export const passwordValidation = body("password")
@@ -14,7 +15,6 @@ export const passwordValidation = body("password")
 export const emailValidation = body("email")
     .isString()
     .trim().notEmpty()
-    .isURL()
     .matches("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
     .isLength({max: 100})
 
