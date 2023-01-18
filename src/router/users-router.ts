@@ -14,7 +14,6 @@ usersRouter.get("/",
 
     basicAuthorizationRequests,
 
-
 // TODO
     async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<UsersOutputType[]>>) => {
 
