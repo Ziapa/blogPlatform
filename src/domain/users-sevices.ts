@@ -1,12 +1,20 @@
 import {v4 as uuidV4} from "uuid"
 import bcrypt from 'bcrypt'
 import {usersRepositories} from "../repositories/users/users-repositories";
-import {UserRequest} from "../types/usersType";
+import {UserAuthRequest, UserRequest} from "../types/usersType";
 
 export const usersServices = {
 
     async _generationHash(password: string, salt: string) {
-        return  await bcrypt.hash(password, salt)
+        return await bcrypt.hash(password, salt)
+    },
+    async checkCredentials(body: UserAuthRequest) {
+        const user = await usersRepositories.findByLoginOrEmail(body.loginOrEmail)
+        if (!user) return false
+
+        const passwordHash = await this._generationHash(body.password, user.passwordSalt)
+        return user.passwordHash === passwordHash;
+
     },
 
     async crateUser(body: UserRequest) {
