@@ -15,7 +15,7 @@ export const passwordValidation = body("password")
 export const emailValidation = body("email")
     .isString()
     .trim().notEmpty()
-    .matches("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
+    .isEmail()
     .isLength({max: 100})
 
 

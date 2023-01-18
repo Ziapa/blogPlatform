@@ -11,10 +11,8 @@ export const usersServices = {
 
     async crateUser(body: UserRequest) {
 
-
         const passwordSalt = await bcrypt.genSalt(10)
         const passwordHash = await this._generationHash(body.password, passwordSalt)
-
 
         const newUser = {
             id: uuidV4(),
