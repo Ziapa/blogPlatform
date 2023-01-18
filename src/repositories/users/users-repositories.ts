@@ -28,8 +28,8 @@ export const  usersRepositories = {
     async findByLoginOrEmail (loginOrEmail: string) {
         return await usersCollection.findOne({
             $or: [
-                {email: loginOrEmail, $options: "i"},
-                {login: loginOrEmail, $options: "i"}
+                {email: loginOrEmail},
+                {login: loginOrEmail}
             ]
         })
     }
