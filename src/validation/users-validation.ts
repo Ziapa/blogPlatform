@@ -11,7 +11,7 @@ export const passwordValidation = body("password")
     .trim().notEmpty()
     .isLength({max: 20, min:6})
 
-export const webSiteUrlValidation = body("email")
+export const emailValidation = body("email")
     .isString()
     .trim().notEmpty()
     .isURL()
@@ -22,6 +22,6 @@ export const webSiteUrlValidation = body("email")
 export const createUserValidation = [
     loginValidation,
     passwordValidation,
-    webSiteUrlValidation,
+    emailValidation,
     inputValidationMiddleware
 ]
