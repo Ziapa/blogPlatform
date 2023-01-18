@@ -2,18 +2,18 @@ import {Response, Router} from "express";
 import {usersServices} from "../domain/users-sevices";
 import {RequestWithBody} from "../types/types";
 import {UserAuthRequest} from "../types/usersType";
+import {jwtService} from "../application/jwt-service";
 
 export const authRouter = Router()
 
 authRouter.post("/login",
 
+    async (req: RequestWithBody<UserAuthRequest>, res: Response ) => {
 
-
-    async (req: RequestWithBody<UserAuthRequest>, res: Response<boolean> ) => {
-
-        const result = await usersServices.checkCredentials(req.body)
-        if (result) {
-            res.sendStatus(204)
+        const user = await usersServices.checkCredentials(req.body)
+        if (user) {
+            const token = await jwtService.createJWT(user)
+            res.status(201).send(token)
         } else {
             res.sendStatus(401)
         }

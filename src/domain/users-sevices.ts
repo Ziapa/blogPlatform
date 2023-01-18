@@ -13,8 +13,9 @@ export const usersServices = {
         if (!user) return false
 
         const passwordHash = await this._generationHash(body.password, user.passwordSalt)
-        return user.passwordHash === passwordHash;
-
+        if (user.passwordHash === passwordHash) {
+            return user
+        }
     },
 
     async crateUser(body: UserRequest) {
