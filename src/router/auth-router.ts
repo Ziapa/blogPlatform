@@ -5,7 +5,7 @@ import {UserAuthRequest} from "../types/usersType";
 
 export const authRouter = Router()
 
-authRouter.post("/",
+authRouter.post("/login",
 
 
 
