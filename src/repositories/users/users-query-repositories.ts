@@ -1,5 +1,5 @@
 import {usersCollection} from "../db";
-import {UsersOutputType} from "../../types/usersType";
+import {UserOutputType, UsersOutputType} from "../../types/usersType";
 import {QueryRequest} from "../../types/types";
 import {PaginationViewModel} from "../../helpers/pagination";
 
@@ -34,7 +34,19 @@ export const queryUsersRepositories = {
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
     },
-    async getUserById (id: string) {
-        return usersCollection.find({id: id})
+    async getUserById (id: string): Promise<UserOutputType | null> {
+        const user = await usersCollection.findOne({id: id})
+        console.log(user)
+
+        if (user) {
+            return {
+                email: user.email,
+                login: user.login,
+                userId: user.id
+            }
+        } else {
+            return null
+        }
+
     }
 }

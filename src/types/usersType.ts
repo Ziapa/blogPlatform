@@ -14,6 +14,12 @@ export type UsersOutputType = {
     createdAt: string
 }
 
+export type UserOutputType = {
+    userId: string
+    login: string
+    email:string
+}
+
 export type UserRequest = {
     login: string
     email:string
