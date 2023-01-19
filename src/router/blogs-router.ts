@@ -4,22 +4,21 @@ import {
     QueryRequest,
     RequestWithBody,
     RequestWithParams,
-    RequestWithParamsAndBody, RequestWithParamsAndQuery,
+    RequestWithParamsAndBody,
+    RequestWithParamsAndQuery,
     RequestWithQuery
 } from "../types/types";
 import {CreateBlogsModel} from "../model/blogsModel/createBlogsModel";
 import {QueryBlogsModelType} from "../model/blogsModel/queryBlogsModel";
-import {basicAuthorization} from "../middlewares/authorization-middleware";
-import {createPostByUserIdValidation, createBlogValidation, updateBlogValidation} from "../validation/blogs-validation";
+import {createBlogValidation, createPostByUserIdValidation, updateBlogValidation} from "../validation/blogs-validation";
 import {QueryPostModelType} from "../model/postsModel/queryPostModel";
-import {
-    CreateBlogByUserIdType,
-} from "../model/postsModel/createPostModel";
+import {CreateBlogByUserIdType,} from "../model/postsModel/createPostModel";
 import {blogsServices} from "../domain/blogs-services";
 import {postsServices} from "../domain/posts-services";
 import {queryBlogsRepositories} from "../repositories/blogs/blogs-query-repositories";
 import {queryPostsRepositories} from "../repositories/posts/posts-query-repositories";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
+import {basicAuthorization} from "../middlewares/baseAuthorization-middleware";
 
 export const blogsRouter = Router()
 

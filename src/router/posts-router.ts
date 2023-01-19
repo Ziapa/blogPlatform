@@ -1,5 +1,4 @@
 import {Request, Response, Router} from "express";
-import {basicAuthorization} from "../middlewares/authorization-middleware";
 import {createPostValidation, updatePostValidation} from "../validation/posts-validation";
 import {PostsOutputType} from "../types/postsTypes";
 import {CreatePostModelType} from "../model/postsModel/createPostModel";
@@ -14,6 +13,7 @@ import {QueryPostModelType} from "../model/postsModel/queryPostModel";
 import {postsServices} from "../domain/posts-services";
 import {queryPostsRepositories} from "../repositories/posts/posts-query-repositories";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
+import {basicAuthorization} from "../middlewares/baseAuthorization-middleware";
 
 
 export const postsRouter = Router()

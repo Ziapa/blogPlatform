@@ -33,5 +33,8 @@ export const queryUsersRepositories = {
         })
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
+    },
+    async getUserById (id: string) {
+        return usersCollection.find({id: id})
     }
 }

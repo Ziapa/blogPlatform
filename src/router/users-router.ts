@@ -3,10 +3,10 @@ import {queryUsersRepositories} from "../repositories/users/users-query-reposito
 import {usersServices} from "../domain/users-sevices";
 import {QueryRequest, RequestWithBody, RequestWithParams, RequestWithQuery} from "../types/types";
 import {UserRequest, UsersOutputType} from "../types/usersType";
-import {basicAuthorization, basicAuthorizationRequests} from "../middlewares/authorization-middleware";
 import {QueryUsersModelType} from "../model/usersModel/queryUsersModel";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 import {createUserValidation} from "../validation/users-validation";
+import {basicAuthorization, basicAuthorizationRequests} from "../middlewares/baseAuthorization-middleware";
 
 export const usersRouter = Router()
 
@@ -31,7 +31,7 @@ usersRouter.post("/",
 
     createUserValidation,
 
-    async (req: RequestWithBody<UserRequest>, res: Response<UsersOutputType | null> ) => {
+    async (req: RequestWithBody<UserRequest>, res: Response<UsersOutputType | null>) => {
 
         const result = await usersServices.crateUser(req.body)
         if (result) {
