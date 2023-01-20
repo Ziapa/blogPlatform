@@ -6,13 +6,14 @@ export const authorizationMiddleware = async (req: Request, res: Response, next:
     if (!req.headers.authorization) {
         return res.send(401)
     }
-    
+
     const token = req.headers.authorization.split(" ")[1]
 
     const userId: string | null = await jwtService.getUserIdByToken(token)
-    if (userId) {
+    if (!userId) {
+        res.sendStatus(401)
+    }else{
         req.user = await queryUsersRepositories.getUserById(userId)
         next()
     }
-    res.sendStatus(401)
 }
