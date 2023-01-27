@@ -86,9 +86,9 @@ postsRouter.delete("/:id",
 
         async (req: RequestWithParams<CreateCommentsModel>, res: Response) => {
 
-        const createPost = await commentsServices.createComment(req.params.content, req.user)
-            if (createPost) {
-                res.status(201).send(createPost)
+        const createComment = await commentsServices.createComment(req.params.content, req.user)
+            if (createComment) {
+                res.status(201).send(createComment)
             } else {
                 res.sendStatus(400)
             }
