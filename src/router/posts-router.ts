@@ -17,6 +17,7 @@ import {basicAuthorization} from "../middlewares/baseAuthorization-middleware";
 import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {CreateCommentsModel} from "../model/comments/createCommentsModel";
 import {commentsServices} from "../domain/comments-services";
+import {createCommentsValidation} from "../validation/comments-validation";
 
 
 export const postsRouter = Router()
@@ -83,6 +84,8 @@ postsRouter.delete("/:id",
     postsRouter.post("/:postId/comments",
 
         authorizationMiddleware,
+
+        createCommentsValidation,
 
         async (req: RequestWithParams<CreateCommentsModel>, res: Response) => {
 
