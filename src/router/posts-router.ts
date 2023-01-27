@@ -14,6 +14,9 @@ import {postsServices} from "../domain/posts-services";
 import {queryPostsRepositories} from "../repositories/posts/posts-query-repositories";
 import {paginationQuery, PaginationViewModel} from "../helpers/pagination";
 import {basicAuthorization} from "../middlewares/baseAuthorization-middleware";
+import {authorizationMiddleware} from "../middlewares/authorization-middleware";
+import {CreateCommentsModel} from "../model/comments/createCommentsModel";
+import {commentsServices} from "../domain/comments-services";
 
 
 export const postsRouter = Router()
@@ -76,4 +79,18 @@ postsRouter.delete("/:id",
         } else {
             res.sendStatus(404)
         }
-    })
+    }),
+    postsRouter.post("/:postId/comments",
+
+        authorizationMiddleware,
+
+        async (req: RequestWithParams<CreateCommentsModel>, res: Response) => {
+
+        const createPost = await commentsServices.createComment(req.params.content, req.user)
+            if (createPost) {
+                res.status(201).send(createPost)
+            } else {
+                res.sendStatus(400)
+            }
+        }
+        )
