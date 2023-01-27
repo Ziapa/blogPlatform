@@ -4,11 +4,8 @@ import {commentsRepositories} from "../repositories/comments/comments-repositori
 
 export const commentsServices = {
 
-    //TODO                                         \/\/\/       \/\/\/
+    async createComment(content: string, user: UserOutputType) {
 
-    async createComment(content: string, user: UserOutputType | null) {
-
-        if (user) {
             const newComments = {
                 id: uuidV4(),
                 content: content,
@@ -19,8 +16,6 @@ export const commentsServices = {
                 createdAt: new Date().toISOString()
         }
             return await commentsRepositories.crateBlog(newComments)
-        }
-
 
     }
 }

@@ -7,6 +7,3 @@ export type CommentsDbType = {
     }
     createdAt: string
 }
-export type CommentsOutputType = {
-    content: string
-}
