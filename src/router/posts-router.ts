@@ -92,6 +92,7 @@ postsRouter.delete("/:id",
         async (req: RequestWithBody<CreateCommentsModel>, res: Response) => {
 
         const createComment = await commentsServices.createComment(req.body.content, req.user!)
+
             if (createComment) {
                 res.status(201).send(createComment)
             } else {
@@ -108,7 +109,12 @@ postsRouter.delete("/:id",
 
             const findComments = await queryCommentsRepositories.getComments(pagination, req.body.postId)
 
-            res.status(200).send(findComments)
+            if (findComments) {
+                res.status(200).send(findComments)
+            } else  {
+                res.sendStatus(404)
+            }
+
         }
         )
 

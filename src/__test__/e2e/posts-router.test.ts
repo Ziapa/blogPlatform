@@ -1,19 +1,34 @@
 import request from "supertest"
 import {app} from "../../index"
 
-describe("create post", () => {
 
-    it("should remove all data, status 204", async () => {
-        await request(app)
-            .delete("/testing/all-data")
-            .expect(204,{})
-    })
+describe("create1234 post", () => {
+
+    it("should remove all data, status 204", async function () {
+        const response = await request(app).delete("/testing/all-data")
+
+        expect(response.status).toBe(204)
+        expect(response.body).toStrictEqual({})
+    });
 
     it("should return 200", async () => {
-        await request(app)
-            .get("/posts")
-            .expect(200, [])
+        const response = await request(app).get("/posts")
+
+        expect(response.status).toBe(200)
+        expect(response.body).toStrictEqual({
+            "items": expect.any(Array),
+            "page": expect.any(Number),
+            "pageSize": expect.any(Number),
+            "pagesCount": expect.any(Number),
+            "totalCount": expect.any(Number)
+        })
     })
+
+
+})
+
+describe("create post", () => {
+
 
     it("should return new blog and status 201", async () => {
         const payload = {
@@ -25,7 +40,7 @@ describe("create post", () => {
             .post("/blogs")
             .send(payload)
             .auth("admin", "qwerty")
-            .expect(201,{
+            .expect(201, {
                 id: "0",
                 name: "Ziapa",
                 description: "Smit",
@@ -73,7 +88,7 @@ describe("create post", () => {
             .post("/posts")
             .send(newPost)
             .auth("admin", "qwerty")
-            .expect(201,{
+            .expect(201, {
                 id: "0",
                 title: "title",
                 shortDescription: "shortDescription",
@@ -83,7 +98,7 @@ describe("create post", () => {
             })
     })
 
-  it("should return status 204", async () => {
+    it("should return status 204", async () => {
 
         const newPost = {
             title: "newTitle",
@@ -101,7 +116,7 @@ describe("create post", () => {
 
         await request(app)
             .get("/posts/0")
-            .expect(200,{
+            .expect(200, {
                 id: "0",
                 title: "newTitle",
                 shortDescription: "newShortDescription",

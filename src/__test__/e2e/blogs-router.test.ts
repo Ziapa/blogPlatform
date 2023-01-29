@@ -50,6 +50,8 @@ describe("/blogs", () => {
             .post("/blogs")
             .send(payload)
             .auth("admin", "qwerty")
+
+
             expect(response.status).toBe(201)
     });
 

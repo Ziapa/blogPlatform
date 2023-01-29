@@ -5,6 +5,7 @@ import {blogsRouter} from "./router/blogs-router";
 import {runDb} from "./repositories/db";
 import {usersRouter} from "./router/users-router";
 import {authRouter} from "./router/auth-router";
+import {commentsRouter} from "./router/comments-router";
 
 export const app = express()
 const PORT = 3003
@@ -20,6 +21,7 @@ app.use("/posts", postsRouter)
 app.use("/testing", testingRouter)
 app.use("/users", usersRouter)
 app.use("/auth", authRouter)
+app.use("/comments", commentsRouter)
 
 const startApp = async () => {
 
