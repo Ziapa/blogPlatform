@@ -4,7 +4,7 @@ import {PostsOutputType} from "../types/postsTypes";
 import {CreatePostModelType} from "../model/postsModel/createPostModel";
 import {
     QueryRequest,
-    RequestWithBody,
+    RequestWithBody, RequestWithBodyAndQuery,
     RequestWithParams,
     RequestWithParamsAndBody,
     RequestWithQuery
@@ -18,6 +18,8 @@ import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {CreateCommentsModel} from "../model/comments/createCommentsModel";
 import {commentsServices} from "../domain/comments-services";
 import {createCommentsValidation} from "../validation/comments-validation";
+import {CommentsDbType} from "../types/commentsType";
+import {queryCommentsRepositories} from "../repositories/comments/comments-query-repositories";
 
 
 export const postsRouter = Router()
@@ -96,4 +98,18 @@ postsRouter.delete("/:id",
                 res.sendStatus(404)
             }
         }
+        ),
+
+    postsRouter.get("/:postId/comments",
+
+        async (req: RequestWithBodyAndQuery<CreateCommentsModel, QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
+
+        const pagination = paginationQuery(req.query)
+
+            const findComments = await queryCommentsRepositories.getComments(pagination)
+
+            res.status(200).send(findComments)
+        }
         )
+
+

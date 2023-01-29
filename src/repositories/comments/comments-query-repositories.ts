@@ -1,35 +1,35 @@
-import {BlogsDbType, BlogsOutputType} from "../../types/blogsTypes";
-import {blogsCollection} from "../db";
-import { PaginationViewModel} from "../../helpers/pagination";
+import {blogsCollection, commentsCollection} from "../db";
+import {PaginationViewModel} from "../../helpers/pagination";
 import {QueryRequest} from "../../types/types";
+import {CommentsDbType} from "../../types/commentsType";
 
 export const queryCommentsRepositories = {
 
-    mapBlogToViewType (blog: BlogsDbType): BlogsOutputType {
+    mapCommentsToViewType (comments: CommentsDbType): CommentsDbType {
         return {
-            id: blog.id,
-            name: blog.name,
-            description: blog.description,
-            websiteUrl: blog.websiteUrl,
-            createdAt: blog.createdAt
+            id: comments.id,
+            content: comments.content,
+            commentatorInfo: {
+                userId: comments.commentatorInfo.userId,
+                userLogin: comments.commentatorInfo.userLogin
+            },
+            createdAt: comments.createdAt
         }
     },
 
-    async getComments(
-        pagination: QueryRequest
-    ): Promise<PaginationViewModel<BlogsOutputType[]>> {
+    async getComments(pagination: QueryRequest): Promise<PaginationViewModel<CommentsDbType[]>> {
 
-        const filter = {name: {$regex: pagination.searchNameTerm ?? "", $options: "i"}}
+        const filter = {}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
-        const findBlogs = await blogsCollection
+        const findBlogs = await commentsCollection
             .find(filter)
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
         const count = await blogsCollection.countDocuments(filter)
-        const items: BlogsOutputType[] = findBlogs.map(el => this.mapBlogToViewType(el))
+        const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
 
