@@ -11,7 +11,7 @@ commentsRouter.get("/:id", async (req: RequestWithQuery<{ id: string }>, res:Res
     const findComment = await queryCommentsRepositories.getComment(req.query.id)
 
     if (findComment) {
-        res.status(200).send(findComment)
+        res.status(201).send(findComment)
     } else {
         res.sendStatus(404)
     }
