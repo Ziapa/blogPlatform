@@ -1,4 +1,4 @@
-import {blogsCollection, postsCollection, usersCollection} from "./db";
+import {blogsCollection, commentsCollection, postsCollection, usersCollection} from "./db";
 
 
 export const testingRepositories = {
@@ -6,6 +6,7 @@ export const testingRepositories = {
         await blogsCollection.deleteMany({})
         await postsCollection.deleteMany({})
         await usersCollection.deleteMany({})
+        await commentsCollection.deleteMany({})
         return true
     }
 }

@@ -23,12 +23,12 @@ export const queryCommentsRepositories = {
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
         const findBlogs = await commentsCollection
-            .find(filterPostId)
+            .find({})
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
-        const count = await commentsCollection.countDocuments(filterPostId)
+        const count = await commentsCollection.countDocuments({})
         const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
