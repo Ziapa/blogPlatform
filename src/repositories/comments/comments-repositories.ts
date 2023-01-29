@@ -9,7 +9,15 @@ export const commentsRepositories = {
         const result = await commentsCollection.insertOne(newComments)
 
         if (result.acknowledged) {
-            return newComments
+            return {
+                id: newComments.id,
+                content: newComments.content,
+                commentatorInfo: {
+                    userId: newComments.commentatorInfo.userId,
+                    userLogin: newComments.commentatorInfo.userLogin
+                },
+                createdAt: newComments.createdAt
+            }
 
         } else {
             return null
