@@ -17,5 +17,8 @@ export const commentsServices = {
         }
             return await commentsRepositories.crateBlog(newComments)
 
+    },
+    async deleteComment(id: string) {
+        return commentsRepositories.deleteComment(id)
     }
 }

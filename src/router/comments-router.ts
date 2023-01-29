@@ -1,6 +1,8 @@
 import {Response, Router} from "express";
-import {RequestWithQuery} from "../types/types";
+import {RequestWithParams, RequestWithQuery} from "../types/types";
 import {queryCommentsRepositories} from "../repositories/comments/comments-query-repositories";
+import {authorizationMiddleware} from "../middlewares/authorization-middleware";
+import {commentsServices} from "../domain/comments-services";
 
 export const commentsRouter = Router()
 
@@ -14,4 +16,18 @@ commentsRouter.get("/:id", async (req: RequestWithQuery<{ id: string }>, res:Res
         res.sendStatus(404)
     }
 
-})
+}),
+
+    commentsRouter.delete("/:id",
+
+        authorizationMiddleware,
+
+        async (req: RequestWithParams<{id: string}>, res: Response) => {
+
+        if (await commentsServices.deleteComment(req.params.id)) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
+
+    })

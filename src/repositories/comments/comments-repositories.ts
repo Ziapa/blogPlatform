@@ -24,5 +24,10 @@ export const commentsRepositories = {
         }
 
     },
+    async deleteComment(id: string) {
+        const result = await commentsCollection.deleteOne({id: id})
+
+        return result.deletedCount === 1
+    }
 
 }
