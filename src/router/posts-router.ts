@@ -102,11 +102,11 @@ postsRouter.delete("/:id",
 
     postsRouter.get("/:postId/comments",
 
-        async (req: RequestWithBodyAndQuery<CreateCommentsModel, QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
+        async (req: RequestWithBodyAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
 
         const pagination = paginationQuery(req.query)
 
-            const findComments = await queryCommentsRepositories.getComments(pagination)
+            const findComments = await queryCommentsRepositories.getComments(pagination, req.body.postId)
 
             res.status(200).send(findComments)
         }

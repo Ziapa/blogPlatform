@@ -17,18 +17,18 @@ export const queryCommentsRepositories = {
         }
     },
 
-    async getComments(pagination: QueryRequest): Promise<PaginationViewModel<CommentsDbType[]>> {
+    async getComments(pagination: QueryRequest, postID: string): Promise<PaginationViewModel<CommentsDbType[]>> {
 
-        const filter = {}
+        const filterPostId = {id: postID}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
         const findBlogs = await commentsCollection
-            .find(filter)
+            .find(filterPostId)
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
-        const count = await commentsCollection.countDocuments(filter)
+        const count = await commentsCollection.countDocuments(filterPostId)
         const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
