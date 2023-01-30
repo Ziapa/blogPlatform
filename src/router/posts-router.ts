@@ -4,7 +4,8 @@ import {PostsOutputType} from "../types/postsTypes";
 import {CreatePostModelType} from "../model/postsModel/createPostModel";
 import {
     QueryRequest,
-    RequestWithBody, RequestWithBodyAndQuery,
+    RequestWithBody,
+    RequestWithBodyAndQuery,
     RequestWithParams,
     RequestWithParamsAndBody,
     RequestWithQuery
@@ -17,7 +18,7 @@ import {basicAuthorization} from "../middlewares/baseAuthorization-middleware";
 import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {CreateCommentsModel} from "../model/comments/createCommentsModel";
 import {commentsServices} from "../domain/comments-services";
-import {createCommentsValidation} from "../validation/comments-validation";
+import {commentsValidation} from "../validation/comments-validation";
 import {CommentsDbType} from "../types/commentsType";
 import {queryCommentsRepositories} from "../repositories/comments/comments-query-repositories";
 
@@ -87,7 +88,7 @@ postsRouter.delete("/:id",
 
         authorizationMiddleware,
 
-        createCommentsValidation,
+        commentsValidation,
 
         async (req: RequestWithBody<CreateCommentsModel>, res: Response) => {
 

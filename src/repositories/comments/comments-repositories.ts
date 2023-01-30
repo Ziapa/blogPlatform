@@ -24,10 +24,22 @@ export const commentsRepositories = {
         }
 
     },
+
     async deleteComment(id: string) {
         const result = await commentsCollection.deleteOne({id: id})
 
         return result.deletedCount === 1
-    }
+    },
 
+    async updateComment(id: string, content: string) {
+
+        const result = await commentsCollection.updateOne(
+            {id: id},
+            {
+                $set: {
+                    content: content
+                }
+            })
+        return result.matchedCount === 1
+    }
 }

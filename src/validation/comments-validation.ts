@@ -11,7 +11,7 @@ export const contentValidation = body("content")
 
 
 
-export const createCommentsValidation = [
+export const commentsValidation = [
     contentValidation,
     inputValidationMiddleware
 ]
