@@ -4,10 +4,11 @@ import {commentsRepositories} from "../repositories/comments/comments-repositori
 
 export const commentsServices = {
 
-    async createComment(content: string, user: UserOutputType) {
+    async createComment(content: string, user: UserOutputType, postId: string) {
 
             const newComments = {
                 id: uuidV4(),
+                postId: postId,
                 content: content,
                 commentatorInfo: {
                     userId: user.userId,

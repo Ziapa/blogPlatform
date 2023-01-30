@@ -5,7 +5,7 @@ import {CommentsDbType} from "../../types/commentsType";
 
 export const queryCommentsRepositories = {
 
-    mapCommentsToViewType (comments: CommentsDbType): CommentsDbType {
+    mapCommentsToViewType(comments: CommentsDbType): CommentsDbType {
         return {
             id: comments.id,
             content: comments.content,
@@ -17,38 +17,30 @@ export const queryCommentsRepositories = {
         }
     },
 
-    async getComment(commentId:string): Promise<CommentsDbType | null> {
+    async getComment(commentId: string): Promise<CommentsDbType | null> {
         const findBlog = await commentsCollection.findOne({id: commentId})
 
         if (findBlog) {
-            return {
-                id: findBlog.id,
-content: findBlog.content,
-                commentatorInfo: {
-                    userId: findBlog.commentatorInfo.userId,
-                    userLogin: findBlog.commentatorInfo.userLogin
-                },
-                createdAt: findBlog.createdAt
-            }
-        } else  {
+            return this.mapCommentsToViewType(findBlog)
+        } else {
             return null
         }
 
 
     },
 
-    async getComments(pagination: QueryRequest, postID: string): Promise<PaginationViewModel<CommentsDbType[]>> {
+    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbType[]>> {
 
-        const filterPostId = {"commentatorInfo.userId": postID}
+        const filterPostById = {postId: postId}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
         const findBlogs = await commentsCollection
-            .find({filterPostId})
+            .find({filterPostById})
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
-        const count = await commentsCollection.countDocuments({filterPostId})
+        const count = await commentsCollection.countDocuments({filterPostById})
         const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)

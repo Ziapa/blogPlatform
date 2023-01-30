@@ -24,6 +24,7 @@ commentsRouter.get("/:id", async (req: RequestWithQuery<{ id: string }>, res: Re
         authorizationMiddleware,
 
 
+
         async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
             if (await commentsServices.deleteComment(req.params.id)) {

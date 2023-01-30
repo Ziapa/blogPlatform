@@ -25,7 +25,7 @@ import {queryCommentsRepositories} from "../repositories/comments/comments-query
 
 export const postsRouter = Router()
 
-postsRouter.get("/", async (req: RequestWithQuery<QueryRequest>  , res: Response<PaginationViewModel<PostsOutputType[]>>) => {
+postsRouter.get("/", async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<PostsOutputType[]>>) => {
 
     const pagination = paginationQuery(req.query)
 
@@ -90,9 +90,9 @@ postsRouter.delete("/:id",
 
         commentsValidation,
 
-        async (req: RequestWithBody<CreateCommentsModel>, res: Response) => {
+        async (req: RequestWithBodyAndQuery<CreateCommentsModel, { postId: string }>, res: Response) => {
 
-        const createComment = await commentsServices.createComment(req.body.content, req.user!)
+            const createComment = await commentsServices.createComment(req.body.content, req.user!, req.query.postId)
 
             if (createComment) {
                 res.status(201).send(createComment)
@@ -100,23 +100,23 @@ postsRouter.delete("/:id",
                 res.sendStatus(404)
             }
         }
-        ),
+    ),
 
     postsRouter.get("/:postId/comments",
 
-        async (req: RequestWithBodyAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
+        async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
 
-        const pagination = paginationQuery(req.query)
+            const pagination = paginationQuery(req.query)
 
-            const findComments = await queryCommentsRepositories.getComments(pagination, req.body.postId)
+            const findComments = await queryCommentsRepositories.getComments(pagination, req.query.postId!)
 
             if (findComments) {
                 res.status(200).send(findComments)
-            } else  {
+            } else {
                 res.sendStatus(404)
             }
 
         }
-        )
+    )
 
 
