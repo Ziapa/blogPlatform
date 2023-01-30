@@ -2,6 +2,7 @@ import {QueryRequest} from "../types/types";
 
 export const paginationQuery = (body: QueryRequest): QueryRequest => {
     return {
+        postId: body.postId || null,
         pageSize: +body.pageSize || 10,
         pageNumber: +body.pageNumber || 1,
         sortDirection: body.sortDirection === "asc" ? "asc" : "desc",
