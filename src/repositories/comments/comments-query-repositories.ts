@@ -39,20 +39,19 @@ content: findBlog.content,
 
     async getComments(pagination: QueryRequest, postID: string): Promise<PaginationViewModel<CommentsDbType[]>> {
 
-        const filterPostId = {}
+        const filterPostId = {"commentatorInfo.userId": postID}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
         const findBlogs = await commentsCollection
-            .find()
+            .find({filterPostId})
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
-        const count = await commentsCollection.countDocuments(filterPostId)
+        const count = await commentsCollection.countDocuments({filterPostId})
         const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
-
     }
 
 }
