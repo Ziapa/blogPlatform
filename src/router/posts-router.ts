@@ -19,7 +19,7 @@ import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {CreateCommentsModel} from "../model/comments/createCommentsModel";
 import {commentsServices} from "../domain/comments-services";
 import {commentsValidation} from "../validation/comments-validation";
-import {CommentsDbType} from "../types/commentsType";
+import {CommentsDbOutputType} from "../types/commentsType";
 import {queryCommentsRepositories} from "../repositories/comments/comments-query-repositories";
 
 
@@ -104,7 +104,7 @@ postsRouter.delete("/:id",
 
     postsRouter.get("/:postId/comments",
 
-        async (req: RequestWithBodyAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbType[]>>) => {
+        async (req: RequestWithBodyAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbOutputType[]>>) => {
 
         const pagination = paginationQuery(req.query)
 

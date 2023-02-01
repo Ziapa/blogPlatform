@@ -1,11 +1,11 @@
 import {commentsCollection} from "../db";
 import {PaginationViewModel} from "../../helpers/pagination";
 import {QueryRequest} from "../../types/types";
-import {CommentsDbType} from "../../types/commentsType";
+import {CommentsDbOutputType, CommentsDbType} from "../../types/commentsType";
 
 export const queryCommentsRepositories = {
 
-    mapCommentsToViewType(comments: CommentsDbType): CommentsDbType {
+    mapCommentsToViewType(comments: CommentsDbType): CommentsDbOutputType {
         return {
             id: comments.id,
             content: comments.content,
@@ -17,7 +17,7 @@ export const queryCommentsRepositories = {
         }
     },
 
-    async getComment(commentId: string): Promise<CommentsDbType | null> {
+    async getComment(commentId: string): Promise<CommentsDbOutputType | null> {
         const findBlog = await commentsCollection.findOne({id: commentId})
 
         if (findBlog) {
@@ -29,7 +29,7 @@ export const queryCommentsRepositories = {
 
     },
 
-    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbType[]>> {
+    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbOutputType[]>> {
 
         const filterPostById = {postId: postId}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
@@ -41,7 +41,7 @@ export const queryCommentsRepositories = {
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
         const count = await commentsCollection.countDocuments({filterPostById})
-        const items: CommentsDbType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
+        const items: CommentsDbOutputType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
         return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
     }
