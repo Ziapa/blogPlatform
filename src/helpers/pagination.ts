@@ -2,7 +2,6 @@ import {QueryRequest} from "../types/types";
 
 export const paginationQuery = (body: QueryRequest): QueryRequest => {
     return {
-        postId: body.postId || null,
         pageSize: +body.pageSize || 10,
         pageNumber: +body.pageNumber || 1,
         sortDirection: body.sortDirection === "asc" ? "asc" : "desc",
@@ -12,6 +11,7 @@ export const paginationQuery = (body: QueryRequest): QueryRequest => {
         sortBy: body.sortBy || "createdAt"
     }
 }
+
 
 export class PaginationViewModel<T> {
     pagesCount: number;

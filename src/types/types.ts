@@ -10,7 +10,6 @@ export type RequestWithParamsAndBody<Params, Body> = Request<Params,{}, Body>
 
 
 export type QueryRequest = {
-    postId: string | null
     searchNameTerm: string | null
     searchLoginTerm: string | null,
     searchEmailTerm: string | null,

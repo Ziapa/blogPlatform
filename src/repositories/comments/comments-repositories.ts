@@ -1,10 +1,10 @@
 import {commentsCollection} from "../db";
-import {CommentsDbType} from "../../types/commentsType";
+import {CommentsDbOutputType, CommentsDbType} from "../../types/commentsType";
 
 
 export const commentsRepositories = {
 
-    async crateBlog(newComments: CommentsDbType): Promise<CommentsDbType | null> {
+    async crateBlog(newComments: CommentsDbType): Promise<CommentsDbOutputType | null> {
 
         const result = await commentsCollection.insertOne(newComments)
 
