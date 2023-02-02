@@ -5,9 +5,9 @@ import {CreatePostModelType} from "../model/postsModel/createPostModel";
 import {
     QueryRequest,
     RequestWithBody,
-    RequestWithBodyAndQuery,
     RequestWithParams,
     RequestWithParamsAndBody,
+    RequestWithParamsAndQuery,
     RequestWithQuery
 } from "../types/types";
 import {QueryPostModelType} from "../model/postsModel/queryPostModel";
@@ -90,9 +90,9 @@ postsRouter.delete("/:id",
 
         commentsValidation,
 
-        async (req: RequestWithBody<CreateCommentsModel>, res: Response) => {
+        async (req: RequestWithParamsAndBody<{postId: string},CreateCommentsModel>, res: Response) => {
 
-        const createComment = await commentsServices.createComment(req.body.content, req.user!, "1")
+        const createComment = await commentsServices.createComment(req.body.content, req.user!, req.params.postId)
 
             if (createComment) {
                 res.status(201).send(createComment)
@@ -104,11 +104,11 @@ postsRouter.delete("/:id",
 
     postsRouter.get("/:postId/comments",
 
-        async (req: RequestWithBodyAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbOutputType[]>>) => {
+        async (req: RequestWithParamsAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbOutputType[]>>) => {
 
         const pagination = paginationQuery(req.query)
 
-            const findComments = await queryCommentsRepositories.getComments(pagination, req.body.postId)
+            const findComments = await queryCommentsRepositories.getComments(pagination, req.params.postId)
 
             if (findComments) {
                 res.status(200).send(findComments)
