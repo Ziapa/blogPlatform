@@ -12,7 +12,7 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
     const findComment = await queryCommentsRepositories.getComment(req.params.id)
 
     if (findComment) {
-        res.status(201).send(findComment)
+        res.status(200).send(findComment)
     } else {
         res.sendStatus(404)
     }
