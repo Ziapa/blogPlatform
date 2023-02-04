@@ -26,11 +26,11 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
         async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
             const comment = await queryCommentsRepositories.getComment(req.params.id)
-
-            if (req.user!.userId !== comment?.commentatorInfo.userId) {
-                res.sendStatus(403)
-            }
-
+if (comment) {
+    if (req.user!.userId !== comment?.commentatorInfo.userId) {
+        res.sendStatus(403)
+    }
+}
             if (await commentsServices.deleteComment(req.params.id)) {
                 res.sendStatus(204)
             } else {
@@ -47,8 +47,10 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
             const updateComments = await commentsServices.updateComment(req.params.id, req.body.content)
             const comment = await queryCommentsRepositories.getComment(req.params.id)
 
-            if (req.user!.userId !== comment?.commentatorInfo.userId) {
-                res.sendStatus(403)
+            if (comment) {
+                if (req.user!.userId !== comment?.commentatorInfo.userId) {
+                    res.sendStatus(403)
+                }
             }
             if (updateComments) {
                 res.sendStatus(204)
