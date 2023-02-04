@@ -1,5 +1,5 @@
 import {Response, Router} from "express";
-import {RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../types/types";
+import {RequestWithParams, RequestWithParamsAndBody} from "../types/types";
 import {queryCommentsRepositories} from "../repositories/comments/comments-query-repositories";
 import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {commentsServices} from "../domain/comments-services";
@@ -7,9 +7,9 @@ import {commentsValidation} from "../validation/comments-validation";
 
 export const commentsRouter = Router()
 
-commentsRouter.get("/:id", async (req: RequestWithQuery<{ id: string }>, res: Response) => {
+commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
-    const findComment = await queryCommentsRepositories.getComment(req.query.id)
+    const findComment = await queryCommentsRepositories.getComment(req.params.id)
 
     if (findComment) {
         res.status(201).send(findComment)
@@ -22,8 +22,6 @@ commentsRouter.get("/:id", async (req: RequestWithQuery<{ id: string }>, res: Re
     commentsRouter.delete("/:id",
 
         authorizationMiddleware,
-
-
 
         async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
