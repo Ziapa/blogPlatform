@@ -25,7 +25,7 @@ import {queryCommentsRepositories} from "../repositories/comments/comments-query
 
 export const postsRouter = Router()
 
-postsRouter.get("/", async (req: RequestWithQuery<QueryRequest>  , res: Response<PaginationViewModel<PostsOutputType[]>>) => {
+postsRouter.get("/", async (req: RequestWithQuery<QueryRequest>, res: Response<PaginationViewModel<PostsOutputType[]>>) => {
 
     const pagination = paginationQuery(req.query)
 
@@ -90,33 +90,39 @@ postsRouter.delete("/:id",
 
         commentsValidation,
 
-        async (req: RequestWithParamsAndBody<{postId: string},CreateCommentsModel>, res: Response) => {
+        async (req: RequestWithParamsAndBody<{ postId: string }, CreateCommentsModel>, res: Response) => {
 
-        const createComment = await commentsServices.createComment(req.body.content, req.user!, req.params.postId)
+            const createComment = await commentsServices.createComment(req.body.content, req.user!, req.params.postId)
 
-            if (createComment) {
-                res.status(201).send(createComment)
+            const comment = await queryCommentsRepositories.getComment(req.params.postId)
+
+            if (comment) {
+                if (req.user!.userId !== comment?.commentatorInfo.userId) {
+                    res.sendStatus(403)
+                } else if (createComment) {
+                    res.status(201).send(createComment)
+                }
             } else {
                 res.sendStatus(404)
             }
         }
-        ),
+    ),
 
     postsRouter.get("/:postId/comments",
 
         async (req: RequestWithParamsAndQuery<{ postId: string }, QueryRequest>, res: Response<PaginationViewModel<CommentsDbOutputType[]>>) => {
 
-        const pagination = paginationQuery(req.query)
+            const pagination = paginationQuery(req.query)
 
             const findComments = await queryCommentsRepositories.getComments(pagination, req.params.postId)
 
             if (findComments) {
                 res.status(200).send(findComments)
-            } else  {
+            } else {
                 res.sendStatus(404)
             }
 
         }
-        )
+    )
 
 

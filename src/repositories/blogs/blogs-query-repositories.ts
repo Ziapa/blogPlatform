@@ -9,6 +9,7 @@ export const queryBlogsRepositories = {
         return {
             id: blog.id,
             name: blog.name,
+            //TODO \/\/\/\/\/\/\/\/\/\/\/
             isMembership: false,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
