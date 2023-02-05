@@ -1,18 +1,18 @@
 
 export type BlogsDbType = {
-
-    id: string
-    name: string
     description: string
     websiteUrl: string
     createdAt: string
+    name: string
+    id: string
 }
 
 export type BlogsOutputType = {
-    id: string
-    name: string
+    isMembership: boolean
     description: string
     websiteUrl: string
     createdAt: string
+    name: string
+    id: string
 }
 
