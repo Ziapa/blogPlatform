@@ -4,6 +4,7 @@ import {queryCommentsRepositories} from "../repositories/comments/comments-query
 import {authorizationMiddleware} from "../middlewares/authorization-middleware";
 import {commentsServices} from "../domain/comments-services";
 import {commentsValidation} from "../validation/comments-validation";
+import {commentOwnerMiddleware} from "../middlewares/commentOwner-middleware";
 
 export const commentsRouter = Router()
 
@@ -22,15 +23,10 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
     commentsRouter.delete("/:id",
 
         authorizationMiddleware,
+        commentOwnerMiddleware,
 
         async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
-            const comment = await queryCommentsRepositories.getComment(req.params.id)
-if (comment) {
-    if (req.user!.userId !== comment?.commentatorInfo.userId) {
-        res.sendStatus(403)
-    }
-}
             if (await commentsServices.deleteComment(req.params.id)) {
                 res.sendStatus(204)
             } else {
@@ -40,18 +36,13 @@ if (comment) {
     commentsRouter.put("/:id",
 
         authorizationMiddleware,
+        commentOwnerMiddleware,
 
         commentsValidation,
 
         async (req: RequestWithParamsAndBody<{ id: string }, { content: string }>, res: Response) => {
             const updateComments = await commentsServices.updateComment(req.params.id, req.body.content)
-            const comment = await queryCommentsRepositories.getComment(req.params.id)
 
-            if (comment) {
-                if (req.user!.userId !== comment?.commentatorInfo.userId) {
-                    res.sendStatus(403)
-                }
-            }
             if (updateComments) {
                 res.sendStatus(204)
             } else {
