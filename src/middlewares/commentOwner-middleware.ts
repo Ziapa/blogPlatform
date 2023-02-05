@@ -10,7 +10,6 @@ export const commentOwnerMiddleware = async (req: Request, res: Response, next: 
             res.sendStatus(403)
         }
     } else {
-        res.sendStatus(404)
         next()
     }
 
