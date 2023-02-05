@@ -8,7 +8,6 @@ export type BlogsDbType = {
 }
 
 export type BlogsOutputType = {
-    isMembership: boolean
     description: string
     websiteUrl: string
     createdAt: string
