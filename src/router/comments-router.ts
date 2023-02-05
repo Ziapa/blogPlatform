@@ -26,16 +26,17 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
         async (req: RequestWithParams<{ id: string }>, res: Response) => {
 
             const comment = await queryCommentsRepositories.getComment(req.params.id)
+
             if (comment) {
                 if (req.user!.userId !== comment?.commentatorInfo.userId) {
                     res.sendStatus(403)
+                } else if (await commentsServices.deleteComment(req.params.id)) {
+                    res.sendStatus(204)
                 }
-            }
-            if (await commentsServices.deleteComment(req.params.id)) {
-                res.sendStatus(204)
-            } else {
+            }else {
                 res.sendStatus(404)
             }
+
         }),
     commentsRouter.put("/:id",
 
