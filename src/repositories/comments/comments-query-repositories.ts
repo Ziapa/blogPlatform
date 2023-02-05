@@ -29,21 +29,27 @@ export const queryCommentsRepositories = {
 
     },
 
-    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbOutputType[]>> {
+    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbOutputType[]> | null> {
 
         const filterPostById = {postId: postId}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
 
-        const findBlogs = await commentsCollection
+        const findComments = await commentsCollection
             .find(filterPostById)
             .skip(skipped)
             .limit(pagination.pageSize)
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
-        const count = await commentsCollection.countDocuments(filterPostById)
-        const items: CommentsDbOutputType[] = findBlogs.map(el => this.mapCommentsToViewType(el))
 
-        return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
+        if (findComments) {
+            const count = await commentsCollection.countDocuments(filterPostById)
+            const items: CommentsDbOutputType[] = findComments.map(el => this.mapCommentsToViewType(el))
+
+            return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
+        } else {
+            return null
+        }
+
     }
 
 }

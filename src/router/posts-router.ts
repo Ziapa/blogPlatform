@@ -94,17 +94,12 @@ postsRouter.delete("/:id",
 
         const createComment = await commentsServices.createComment(req.body.content, req.user!, req.params.postId)
 
-            // const comment = await queryCommentsRepositories.getComment(req.params.id)
-            //
-            // if (comment) {
-            //     if (req.user!.userId !== comment?.commentatorInfo.userId) {
-            //         res.sendStatus(403)
-            //     } else if (await commentsServices.deleteComment(req.params.id)) {
-            //         res.sendStatus(204)
-            //     }
-            // }
+      
             if (createComment) {
+
+
                 res.status(201).send(createComment)
+
             } else {
                 res.sendStatus(404)
             }
