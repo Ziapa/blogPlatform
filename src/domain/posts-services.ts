@@ -1,7 +1,7 @@
 import {PostsOutputType} from "../types/postsTypes"
-import { v4 as uuidV4 } from "uuid"
 import {postsRepositories} from "../repositories/posts/posts-repositories";
 import {queryBlogsRepositories} from "../repositories/blogs/blogs-query-repositories";
+import {randomUUID} from "crypto";
 
 export const postsServices = {
 
@@ -17,7 +17,7 @@ export const postsServices = {
         if (!blog) return null
 
         const newPost = {
-            id: uuidV4(),
+            id: randomUUID(),
             title: body.title,
             shortDescription: body.shortDescription,
             content: body.content,

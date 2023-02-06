@@ -1,13 +1,13 @@
 import {UserOutputType} from "../types/usersType";
-import {v4 as uuidV4} from "uuid"
 import {commentsRepositories} from "../repositories/comments/comments-repositories";
+import {randomUUID} from "crypto";
 
 export const commentsServices = {
 
     async createComment(content: string, user: UserOutputType, postId: string) {
 
             const newComments = {
-                id: uuidV4(),
+                id: randomUUID(),
                 postId: postId,
                 content: content,
                 commentatorInfo: {

@@ -1,7 +1,7 @@
-import {v4 as uuidV4} from "uuid"
 import bcrypt from 'bcrypt'
 import {usersRepositories} from "../repositories/users/users-repositories";
 import {UserAuthRequest, UserRequest} from "../types/usersType";
+import {randomUUID} from "crypto";
 
 export const usersServices = {
 
@@ -24,7 +24,7 @@ export const usersServices = {
         const passwordHash = await this._generationHash(body.password, passwordSalt)
 
         const newUser = {
-            id: uuidV4(),
+            id: randomUUID(),
             login: body.login,
             email: body.email,
             passwordSalt,

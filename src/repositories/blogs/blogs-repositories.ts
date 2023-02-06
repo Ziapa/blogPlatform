@@ -12,6 +12,7 @@ export const blogsRepositories = {
             return {
                 id: newBlog.id,
                 name: newBlog.name,
+                isMembership: newBlog.isMembership,
                 description: newBlog.description,
                 websiteUrl: newBlog.websiteUrl,
                 createdAt: newBlog.createdAt
