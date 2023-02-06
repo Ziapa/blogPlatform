@@ -33,7 +33,7 @@ commentsRouter.get("/:id", async (req: RequestWithParams<{ id: string }>, res: R
                 } else if (await commentsServices.deleteComment(req.params.id)) {
                     res.sendStatus(204)
                 }
-            }else {
+            } else {
                 res.sendStatus(404)
             }
 
