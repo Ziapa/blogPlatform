@@ -112,14 +112,13 @@ postsRouter.delete("/:id",
 
         const pagination = paginationQuery(req.query)
 
-            const findComments = await queryCommentsRepositories.getComments(pagination, req.params.postId)
+            const postId = req.params.postId
+            const post = await queryPostsRepositories.findPost(postId)
+            if (!post) return res.sendStatus(404)
 
-            if (findComments) {
-                res.status(200).send(findComments)
-            } else  {
-                res.sendStatus(404)
-            }
+            const findComments = await queryCommentsRepositories.getComments(pagination, postId)
 
+            res.status(200).send(findComments)
         }
         )
 

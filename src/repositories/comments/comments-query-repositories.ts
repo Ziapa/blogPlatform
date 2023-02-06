@@ -29,7 +29,7 @@ export const queryCommentsRepositories = {
 
     },
 
-    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbOutputType[]> | null> {
+    async getComments(pagination: QueryRequest, postId: string): Promise<PaginationViewModel<CommentsDbOutputType[]>> {
 
         const filterPostById = {postId: postId}
         const skipped = (pagination.pageNumber - 1) * pagination.pageSize
@@ -41,14 +41,10 @@ export const queryCommentsRepositories = {
             .sort({[pagination.sortBy]: pagination.sortDirection})
             .toArray()
 
-        if (findComments) {
-            const count = await commentsCollection.countDocuments(filterPostById)
-            const items: CommentsDbOutputType[] = findComments.map(el => this.mapCommentsToViewType(el))
+        const count = await commentsCollection.countDocuments(filterPostById)
+        const items: CommentsDbOutputType[] = findComments.map(el => this.mapCommentsToViewType(el))
 
-            return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
-        } else {
-            return null
-        }
+        return new PaginationViewModel(count, pagination.pageSize, pagination.pageNumber, items)
 
     }
 
