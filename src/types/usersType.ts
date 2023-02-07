@@ -30,3 +30,9 @@ export type UserAuthRequest = {
     loginOrEmail: string
     password: string
 }
+
+export type UserRegistrationType = {
+    login: string
+    email:string
+    password: string
+}

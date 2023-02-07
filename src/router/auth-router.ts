@@ -1,9 +1,10 @@
 import {Response, Router} from "express";
 import {usersServices} from "../domain/users-sevices";
 import {RequestWithBody} from "../types/types";
-import {UserAuthRequest} from "../types/usersType";
+import {UserAuthRequest, UserRegistrationType} from "../types/usersType";
 import {jwtService} from "../application/jwt-service";
 import {authorizationMiddleware} from "../middlewares/authorization-middleware";
+import {authServices} from "../domain/auth-services";
 
 export const authRouter = Router()
 
@@ -30,5 +31,15 @@ authRouter.get("/me",
     async (req, res) => {
         console.log("test")
     res.status(200).send(req.user)
-    }
-)
+    })
+
+authRouter.post("/registration",
+
+
+    async (req:RequestWithBody<UserRegistrationType>, res) => {
+
+    const newUser = await authServices.createUser(req.body)
+
+        res.status(204).send(newUser!)
+
+    })
